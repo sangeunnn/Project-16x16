@@ -43,7 +43,7 @@ public final class Player extends EditableObject {
 
 	private final int speedWalk;
 	private final int speedJump;
-	
+
 	private final boolean isMultiplayerPlayer;
 
 	public int life; // public for debugging TODO make private
@@ -83,14 +83,14 @@ public final class Player extends EditableObject {
 	 * 
 	 * @param a SideScroller game controller.
 	 */
-	public Player(SideScroller a, GameplayScene g , boolean isMultiplayerPlayer) {
+	public Player(SideScroller a, GameplayScene g, boolean isMultiplayerPlayer) {
 
 		super(a, g);
 
 		pos = new PVector(100, 300); // Spawn LOC. TODO get from current level
 
 		animation = new AnimationComponent();
-//		animation.setSFX(Audio.SFX.STEP, 2);
+		// animation.setSFX(Audio.SFX.STEP, 2);
 		swings = new ArrayList<Swing>();
 		image = Tileset.getTile(0, 258, 14, 14, 4);
 		lifeOn = Tileset.getTile(144, 256, 9, 9, 4);
@@ -111,7 +111,7 @@ public final class Player extends EditableObject {
 		setAnimation(ACTION.IDLE);
 		this.isMultiplayerPlayer = isMultiplayerPlayer;
 	}
-	
+
 	/**
 	 * The display method controls how to display the character to the screen with
 	 * what animation.
@@ -130,8 +130,7 @@ public final class Player extends EditableObject {
 		if (isMultiplayerPlayer) {
 			applet.tint(255, 125, 0);
 			image = animation.getFrame();
-		}
-		else {
+		} else {
 			image = animation.animate();
 		}
 		applet.image(image, 0, 0);
@@ -160,14 +159,14 @@ public final class Player extends EditableObject {
 			state.flying = true;
 		}
 		pos.add(velocity);
-		
+
 		chooseAnimation();
 
 		if (pos.y > 2000) { // out of bounds check
 			pos.set(0, -100); // TODO set to spawn loc PVector
 			velocity.mult(0);
 		}
-		
+
 		if (applet.debug == debugType.ALL) {
 			applet.noFill();
 			applet.stroke(255, 0, 0);
@@ -196,7 +195,7 @@ public final class Player extends EditableObject {
 	public PVector getVelocity() {
 		return velocity.copy();
 	}
-	
+
 	public PlayerState getState() {
 		return state;
 	}
@@ -226,6 +225,18 @@ public final class Player extends EditableObject {
 			velocity.x = -speedWalk * (state.dashing ? dashMultiplier : 1);
 			state.facingDir = LEFT;
 		}
+	}
+
+	public void changePosition(CollidableObject collision, Boolean enemyState) {
+		pos.y = collision.pos.y - collision.height / 2 - height / 2;
+		enemyState = false;
+	}
+
+	public boolean setCollidePosition(CollidableObject collision) {
+		return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width / 2
+				&& pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
+				&& (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
+						&& pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
 	}
 
 	private void handleMouseInput() {
@@ -269,12 +280,14 @@ public final class Player extends EditableObject {
 							if (state.flying) {
 								state.landing = true;
 							}
-							pos.y = collision.pos.y - collision.height / 2 - height / 2;
-							state.flying = false;
+							// pos.y = collision.pos.y - collision.height / 2 - height / 2;
+							// state.flying = false;
+							changePosition(collision, state.flying);
 							// player below collision
 						} else {
-							pos.y = collision.pos.y + collision.height / 2 + height / 2;
-							state.jumping = false;
+							// pos.y = collision.pos.y + collision.height / 2 + height / 2;
+							// state.jumping = false;
+							changePosition(collision, state.flying);
 						}
 						velocity.y = 0;
 					}
@@ -287,22 +300,22 @@ public final class Player extends EditableObject {
 		// End animations
 		if (animation.ended) {
 			switch (animation.name) {
-				case "DASH" :
+				case "DASH":
 					state.dashing = false;
 					break;
-				case "DASH_ATTACK" :
+				case "DASH_ATTACK":
 					state.dashing = false;
 					state.attacking = false;
 					break;
-				case "ATTACK" :
+				case "ATTACK":
 					state.attacking = false;
 					break;
-				case "JUMP" :
+				case "JUMP":
 					state.jumping = false;
 					break;
-				case "LAND" :
+				case "LAND":
 					state.landing = false;
-				default :
+				default:
 					break;
 			}
 		}
@@ -372,7 +385,7 @@ public final class Player extends EditableObject {
 				&& (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
 						&& pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
 	}
-	
+
 	public void setAnimation(String anim) {
 		animation.ended = false;
 		setAnimation(ACTION.valueOf(anim));
@@ -390,28 +403,28 @@ public final class Player extends EditableObject {
 		ArrayList<PImage> animSequence = playerAnimationSequences.get(anim);
 
 		switch (anim) {
-			case WALK :
+			case WALK:
 				animation.changeAnimation(animSequence, true, 6);
 				break;
-			case IDLE :
+			case IDLE:
 				animation.changeAnimation(animSequence, true, 20);
 				break;
-			case JUMP :
+			case JUMP:
 				animation.changeAnimation(animSequence, false, 4);
 				break;
-			case LAND :
+			case LAND:
 				animation.changeAnimation(animSequence, false, 2);
 				break;
-			case FALL :
+			case FALL:
 				animation.changeAnimation(animSequence, true, 20);
 				break;
-			case ATTACK :
+			case ATTACK:
 				animation.changeAnimation(animSequence, false, 4);
 				break;
-			case DASH :
+			case DASH:
 				animation.changeAnimation(animSequence, false, 6);
 				break;
-			case DASH_ATTACK :
+			case DASH_ATTACK:
 				animation.changeAnimation(animSequence, false, 2);
 				break;
 		}
