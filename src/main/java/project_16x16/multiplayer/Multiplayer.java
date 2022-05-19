@@ -11,12 +11,12 @@ public class Multiplayer {
 	/**
 	 * A client connects to a server and sends data back and forth.
 	 */
-	private Client c;
+	private Client client;
 	/**
 	 * A server sends and receives data to and from its associated clients (other
 	 * programs connected to it)
 	 */
-	private Server s;
+	private Server server;
 
 	JSONObject data;
 	public boolean isHost;
@@ -32,13 +32,13 @@ public class Multiplayer {
 		this.isHost = isHost;
 		data = null;
 		if (isHost) {
-			s = new Server(player, port);
-			if (!s.active()) {
+			setServer(player, port);
+			if (!getServer.active()) {
 				throw new java.net.ConnectException();
 			}
 		} else {
-			c = new Client(player, hostIP, port);
-			if (!c.active()) {
+			setClient(player, hostIP, port);
+			if (!getClient.active()) {
 				throw new java.net.ConnectException();
 			}
 		}
@@ -58,11 +58,11 @@ public class Multiplayer {
 	public JSONObject readData() {
 
 		if (isHost) {
-			c = s.available();
+			client = getServer().available();
 		}
 
-		if (c != null && c.available() > 0) {
-			String packet = c.readString();
+		if (getClient() != null && getClient().available() > 0) {
+			String packet = getClient().readString();
 			try {
 				data = JSONObject.parse(packet);
 			} catch (java.lang.RuntimeException e) {
@@ -73,20 +73,36 @@ public class Multiplayer {
 
 	public void writeData(String packet) {
 		if (isHost) {
-			s.write(packet); // write to client(s)
+			getServer().write(packet); // write to client(s)
 		} else {
-			if (c.active()) {
-				c.write(packet); // write to server
+			if (getClient().active()) {
+				getClient().write(packet); // write to server
 			}
 		}
 	}
 
 	public void exit() {
-		if (c != null) {
-			c.stop();
+		if (getClient() != null) {
+			getClient().stop();
 		}
-		if (s != null) { // TODO message clients.
-			s.stop();
+		if (getServer() != null) { // TODO message clients.
+			getServer().stop();
 		}
+	}
+
+	public setServer(SideScroller player, int port){
+		server = new Server(player, port);
+	}
+	
+	public Server getServer(){
+		return server;
+	}
+
+	public setClient(SideScroller player, String hostIP, int port){
+		client = new Client(player, hostIP, port);
+	}
+
+	public Client getClient(){
+		return client;
 	}
 }
