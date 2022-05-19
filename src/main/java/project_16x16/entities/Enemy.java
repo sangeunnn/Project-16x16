@@ -111,9 +111,9 @@ public class Enemy extends CollidableObject {
 		}
 	}
 
-	public PVector getVelocity() {
-		return velocity.copy();
-	}
+	// public PVector getVelocity() {
+	// return velocity.copy();
+	// }
 
 	public State getState() {
 		return enemyState;
