@@ -67,9 +67,9 @@ public abstract class ParticleEmission {
 	public Consumer<Particle> getConsumer() {
 		return p -> {
 			generateNew();
-			p.position = newPosition;
-			p.velocity = newVelocity;
-			p.acceleration = newAcceleration;
+			p.setPosition(newPosition);
+			p.setVelocity(newVelocity);
+			p.setAcceleration(newAcceleration);
 		};
 	}
 }
