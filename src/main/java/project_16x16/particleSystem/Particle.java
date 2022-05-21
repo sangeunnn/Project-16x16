@@ -58,7 +58,7 @@ public class Particle {
 		updateVelocity(getAcceleration());
 		updatePosition(getVelocity());
 		decreaseLifespan(updateStep);
-		setFrameCount(getFrameCount() + 1);
+		frameCount++;
 	}
 	
 	private void draw() {
