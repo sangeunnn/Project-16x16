@@ -44,7 +44,7 @@ public class Particle {
 	}
 	
 	public boolean isDead() {
-		return lifespan <= deathLevel;
+		return getLifespan() <= deathLevel;
 	}
 	
 	public void run() {
@@ -58,7 +58,7 @@ public class Particle {
 		updateVelocity(getAcceleration());
 		updatePosition(getVelocity());
 		decreaseLifespan(updateStep);
-		frameCount++;
+		setFrameCount(getFrameCount() + 1);
 	}
 	
 	private void draw() {
