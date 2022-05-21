@@ -33,7 +33,7 @@ public class Particle {
 	
 	public Particle (SideScroller applet, PImage image) {
 		this.applet = applet;
-		this.image = image;
+		this.setImage(image);
 		setFrameCount(0);
 	}
 	
@@ -65,10 +65,10 @@ public class Particle {
 		
 		applet.pushMatrix();
 		applet.translate(getPosition().x, getPosition().y);
-		if (useCustomeSize)
-			applet.scale(size, size);
+		if (isUseCustomeSize())
+			applet.scale(getSize(), getSize());
 		
-		applet.image(image, 0, 0);
+		applet.image(getImage(), 0, 0);
 		applet.noTint();
 		applet.popMatrix();
 	}
@@ -123,5 +123,29 @@ public class Particle {
 
 	public void setFrameCount(int frameCount) {
 		this.frameCount = frameCount;
+	}
+
+	public boolean isUseCustomeSize() {
+		return useCustomeSize;
+	}
+
+	public void setUseCustomeSize(boolean useCustomeSize) {
+		this.useCustomeSize = useCustomeSize;
+	}
+
+	public float getSize() {
+		return size;
+	}
+
+	public void setSize(float size) {
+		this.size = size;
+	}
+
+	public PImage getImage() {
+		return image;
+	}
+
+	public void setImage(PImage image) {
+		this.image = image;
 	}
 }

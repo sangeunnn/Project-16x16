@@ -27,7 +27,7 @@ public class ParticleAccelerationController implements ParticleEventListener {
 	
 	@Override
 	public void onParticleSpawnEvent(Particle particle) {
-		particle.acceleration.add(acceleration);
+		particle.setAcceleration(particle.getAcceleration().add(acceleration));;
 	}
 	
 	@Override

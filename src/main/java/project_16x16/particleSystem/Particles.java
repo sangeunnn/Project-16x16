@@ -32,7 +32,7 @@ public class Particles {
 		runParticles();
 		
 		if (nextTick())
-			spawnParticles(particleSystem.spawnAmount);
+			spawnParticles(particleSystem.getSpawnAmount());
 		
 		particleSystem.onUpdateEvent();
 	}
@@ -42,8 +42,8 @@ public class Particles {
 	}
 	
 	public Particle newParticle() {
-		Particle p = new Particle(applet, particleSystem.image);
-		p.spawn(particleSystem.getEmissionConsumer(), particleSystem.lifespan*ParticleSystem.FRAMERATE);
+		Particle p = new Particle(applet, particleSystem.getImage());
+		p.spawn(particleSystem.getEmissionConsumer(), particleSystem.getLifespan()*ParticleSystem.FRAMERATE);
 		particleSystem.onParticleSpawnEvent(p);
 		activeParticles.add(p);
 		return p;
@@ -85,11 +85,11 @@ public class Particles {
 	}
 	
 	private void respawnParticle(Particle p) {
-		p.spawn(particleSystem.getEmissionConsumer(), particleSystem.lifespan*ParticleSystem.FRAMERATE);
+		p.spawn(particleSystem.getEmissionConsumer(), particleSystem.getLifespan()*ParticleSystem.FRAMERATE);
 		particleSystem.onParticleSpawnEvent(p);
 	}
 	
 	private boolean nextTick() {
-		return particleSystem.spawn && applet.frameCount % (ParticleSystem.FRAMERATE/particleSystem.spawnRate) == 0;
+		return particleSystem.isSpawn() && applet.frameCount % (ParticleSystem.FRAMERATE/particleSystem.getSpawnRate()) == 0;
 	}
 }

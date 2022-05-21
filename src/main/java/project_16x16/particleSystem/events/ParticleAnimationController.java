@@ -60,9 +60,9 @@ public class ParticleAnimationController implements ParticleEventListener {
 	
 	private void setParticle(Particle particle) {
 		if (rate == -1) {
-			particle.image = getImage(particle.maxLifespan, particle.lifespan);
+			particle.setImage(getImage(particle.getMaxLifespan(), particle.getLifespan()));
 		} else {
-			particle.image = getImage(particle.frameCount);
+			particle.setImage(getImage(particle.getFrameCount()));
 		}
 	}
 	

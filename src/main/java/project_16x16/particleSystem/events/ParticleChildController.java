@@ -64,7 +64,7 @@ public class ParticleChildController implements ParticleEventListener {
 		ArrayList<ParticleSystem> temp = new ArrayList<ParticleSystem>();
 		for(ParticleSystem particleSystem : particleSystems) {
 			particleSystem.run();
-			if (!particleSystem.spawn && !particleSystem.particles.hasActiveParticles())
+			if (!particleSystem.isSpawn() && !particleSystem.getParticles().hasActiveParticles())
 				temp.add(particleSystem);
 		}
 		particleSystems.removeAll(temp);
@@ -72,7 +72,7 @@ public class ParticleChildController implements ParticleEventListener {
 	
 	@Override
 	public void onParticleRunEvent(Particle particle) {
-		if (hasDelay && particle.frameCount == delay)
+		if (hasDelay && particle.getFrameCount() == delay)
 			newChild(particle);
 	}
 	
@@ -89,7 +89,7 @@ public class ParticleChildController implements ParticleEventListener {
 	
 	private void newChild(Particle p) {
 		ParticleSystem newSystem = copySystem.copy();
-		newSystem.emission.setPosition(p.position);
+		newSystem.updateEmission(p);
 		particleSystems.add(newSystem);
 	}
 }

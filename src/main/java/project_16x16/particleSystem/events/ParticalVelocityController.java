@@ -27,7 +27,7 @@ public class ParticalVelocityController implements ParticleEventListener {
 
 	@Override
 	public void onParticleSpawnEvent(Particle particle) {
-		particle.velocity.add(velocity);
+		particle.setVelocity(particle.getVelocity().add(velocity));
 	}
 
 	@Override

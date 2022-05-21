@@ -27,7 +27,7 @@ public class ParticleNoLoopController implements ParticleEventListener {
 	}
 	
 	public void reset() {
-		particleSystem.spawn = true;
+		particleSystem.setSpawn(true);
 		totalSpawned = 0;
 	}
 	
@@ -44,7 +44,7 @@ public class ParticleNoLoopController implements ParticleEventListener {
 	}
 
 	private void disableSpawn() {
-		particleSystem.spawn = false;
+		particleSystem.setSpawn(false);
 	}
 	
 	@Override

@@ -78,7 +78,7 @@ public class MagicProjectile extends ProjectileObject {
 				CollidableObject collidable = (CollidableObject) o;
 				if (collides(collidable) && collidable.flag.equals("TRANSPARENT_BULLET")) {
 					hit = true;
-					trail.spawn = false;
+					trail.setSpawn(false);
 				}
 			}
 		}
@@ -103,7 +103,7 @@ public class MagicProjectile extends ProjectileObject {
 
 	public void hit(CollidableObject collision) {
 		hit = true;
-		trail.spawn = false;
+		trail.setSpawn(false);
 	}
 	
 	private void setParticleAnimation(SideScroller a) {
