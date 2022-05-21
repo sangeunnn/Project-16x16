@@ -19,7 +19,7 @@ public class Multiplayer {
 	private Server server;
 
 	JSONObject data;
-	public boolean isHost;
+	private boolean isHost;
 
 	/**
 	 * Constructor for a connecting client
@@ -29,7 +29,7 @@ public class Multiplayer {
 	 * @param port
 	 */
 	public Multiplayer(SideScroller player, String hostIP, int port, boolean isHost) throws java.net.ConnectException {
-		this.isHost = isHost;
+		this.setHost(isHost);
 		data = null;
 		if (isHost) {
 			setServer(player, port);
@@ -57,7 +57,7 @@ public class Multiplayer {
 
 	public JSONObject readData() {
 
-		if (isHost) {
+		if (isHost()) {
 			client = getServer().available();
 		}
 
@@ -72,7 +72,7 @@ public class Multiplayer {
 	}
 
 	public void writeData(String packet) {
-		if (isHost) {
+		if (isHost()) {
 			getServer().write(packet); // write to client(s)
 		} else {
 			if (getClient().active()) {
@@ -104,5 +104,13 @@ public class Multiplayer {
 
 	public Client getClient(){
 		return client;
+	}
+
+	public boolean isHost() {
+		return isHost;
+	}
+
+	public void setHost(boolean isHost) {
+		this.isHost = isHost;
 	}
 }
