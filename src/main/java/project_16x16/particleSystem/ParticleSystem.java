@@ -25,7 +25,7 @@ public class ParticleSystem {
 	private SideScroller applet;
 	private PImage image;
 	private ParticleEmission emission;
-	private Particles particles;
+	private ParticlesHandler particles;
 	
 	private ArrayList<ParticleEventListener> listeners = new ArrayList<ParticleEventListener>();
 	
@@ -66,7 +66,7 @@ public class ParticleSystem {
 		this.setImage(image);
 		
 		emission = new AreaEmission(new PVector(0,0), 1, 1, 0);
-		setParticles(new Particles(this, applet));
+		setParticles(new ParticlesHandler(this, applet));
 	}
 	
 	public void run() {
@@ -161,11 +161,11 @@ public class ParticleSystem {
 		this.spawnAmount = spawnAmount;
 	}
 
-	public Particles getParticles() {
+	public ParticlesHandler getParticles() {
 		return particles;
 	}
 
-	public void setParticles(Particles particles) {
+	public void setParticles(ParticlesHandler particles) {
 		this.particles = particles;
 	}
 

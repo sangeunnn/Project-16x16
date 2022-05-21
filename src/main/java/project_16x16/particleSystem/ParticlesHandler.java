@@ -12,7 +12,7 @@ import project_16x16.SideScroller;
  *
  * @author petturtle
  */
-public class Particles {
+public class ParticlesHandler {
 
 	private SideScroller applet;
 	private ParticleSystem particleSystem;
@@ -20,7 +20,7 @@ public class Particles {
 	public ArrayList<Particle> activeParticles;
 	public ArrayList<Particle> inactiveParticles;
 	
-	public Particles(ParticleSystem particleSystem, SideScroller applet) {
+	public ParticlesHandler(ParticleSystem particleSystem, SideScroller applet) {
 		this.applet = applet;
 		this.particleSystem = particleSystem;
 		
