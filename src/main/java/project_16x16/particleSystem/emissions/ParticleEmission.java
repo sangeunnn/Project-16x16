@@ -61,7 +61,7 @@ public abstract class ParticleEmission {
 		Random ran = new Random();
 		p.x += (ran.nextFloat()*spread*2f)-spread;
 		p.y += (ran.nextFloat()*spread*2f)-spread;
-		setPosition(p);
+		newPosition = p;
 	}
 	
 	public Consumer<Particle> getConsumer() {

@@ -20,8 +20,8 @@ public class ParticlePreloadSystem {
 			p.decreaseLifespan(frames);
 			p.setFrameCount(frames);
 			if (!p.isDead()) {
-				p.setPosition(p.getPosition().add(positionDeltaIntegral(p, frames)));
-				p.setVelocity(p.getVelocity().add(p.getAcceleration().copy().mult(frames)));
+				p.updatePosition(positionDeltaIntegral(p, frames));
+				p.updateVelocity(p.getAcceleration().copy().mult(frames));
 			}
 		};
 	}

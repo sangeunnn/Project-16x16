@@ -55,8 +55,8 @@ public class Particle {
 	}
 	
 	private void update() {
-		setVelocity(getVelocity().add(getAcceleration()));
-		setPosition(getPosition().add(getVelocity()));
+		updateVelocity(getAcceleration());
+		updatePosition(getVelocity());
 		decreaseLifespan(updateStep);
 		setFrameCount(getFrameCount() + 1);
 	}
@@ -93,12 +93,20 @@ public class Particle {
 		this.velocity = velocity;
 	}
 
+	public void updateVelocity(PVector vector) {
+		this.velocity.add(vector);
+	}
+
 	public PVector getPosition() {
 		return position;
 	}
 
 	public void setPosition(PVector position) {
 		this.position = position;
+	}
+
+	public void updatePosition(PVector vector) {
+		this.position.add(vector);
 	}
 
 	public float getMaxLifespan() {
