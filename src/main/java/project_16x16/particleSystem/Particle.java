@@ -28,6 +28,8 @@ public class Particle {
 	public float maxLifespan; // lifespan of particle when it was spawned
 	public float lifespan;
 	public int frameCount;
+	public static final double deathLevel = 0.0;
+	public static final double updateStep = 1.0;
 	
 	public Particle (SideScroller applet, PImage image) {
 		this.applet = applet;
@@ -41,7 +43,7 @@ public class Particle {
 	}
 	
 	public boolean isDead() {
-		return lifespan <= 0.0;
+		return lifespan <= deathLevel;
 	}
 	
 	public void run() {
@@ -54,7 +56,7 @@ public class Particle {
 	private void update() {
 		velocity.add(acceleration);
 		position.add(velocity);
-		lifespan -= 1.0;
+		lifespan -= updateStep;
 		frameCount++;
 	}
 	
