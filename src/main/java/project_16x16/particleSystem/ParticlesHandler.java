@@ -17,15 +17,15 @@ public class ParticlesHandler {
 	private SideScroller applet;
 	private ParticleSystem particleSystem;
 	
-	public ArrayList<Particle> activeParticles;
-	public ArrayList<Particle> inactiveParticles;
+	private ArrayList<Particle> activeParticles;
+	private ArrayList<Particle> inactiveParticles;
 	
 	public ParticlesHandler(ParticleSystem particleSystem, SideScroller applet) {
 		this.applet = applet;
 		this.particleSystem = particleSystem;
 		
-		activeParticles = new ArrayList<Particle>();
-		inactiveParticles = new ArrayList<Particle>();
+		setActiveParticles(new ArrayList<Particle>());
+		setInactiveParticles(new ArrayList<Particle>());
 	}
 	
 	public void run() {
@@ -38,20 +38,20 @@ public class ParticlesHandler {
 	}
 	
 	public boolean hasActiveParticles() {
-		return activeParticles.size() >= 1;
+		return getActiveParticles().size() >= 1;
 	}
 	
 	public Particle newParticle() {
 		Particle p = new Particle(applet, particleSystem.getImage());
 		p.spawn(particleSystem.getEmissionConsumer(), particleSystem.getLifespan()*ParticleSystem.FRAMERATE);
 		particleSystem.onParticleSpawnEvent(p);
-		activeParticles.add(p);
+		getActiveParticles().add(p);
 		return p;
 	}
 	
 	private void runParticles() {
 		ArrayList<Particle> deadParticles = new ArrayList<Particle>();
-		for(Particle p : activeParticles) {
+		for(Particle p : getActiveParticles()) {
 			p.run();
 			particleSystem.onParticleRunEvent(p);
 			if (p.isDead()) {
@@ -59,8 +59,8 @@ public class ParticlesHandler {
 				particleSystem.onParticleDeathEvent(p);
 			}
 		}
-		activeParticles.removeAll(deadParticles);
-		inactiveParticles.addAll(deadParticles);
+		getActiveParticles().removeAll(deadParticles);
+		getInactiveParticles().addAll(deadParticles);
 	}
 	
 	private void spawnParticles(int spawnAmount) {
@@ -72,15 +72,15 @@ public class ParticlesHandler {
 	
 	private int loopParticles(int amount) {
 		ArrayList<Particle> particles = new ArrayList<Particle>();
-		for(Particle particle : inactiveParticles) {
+		for(Particle particle : getInactiveParticles()) {
 			if (particle.isDead()) {
 				respawnParticle(particle);
 				particles.add(particle);
 			}
 			if (particles.size() >= amount) break;
 		}
-		inactiveParticles.removeAll(particles);
-		activeParticles.addAll(particles);
+		getInactiveParticles().removeAll(particles);
+		getActiveParticles().addAll(particles);
 		return particles.size();
 	}
 	
@@ -91,5 +91,21 @@ public class ParticlesHandler {
 	
 	private boolean nextTick() {
 		return particleSystem.isSpawn() && applet.frameCount % (ParticleSystem.FRAMERATE/particleSystem.getSpawnRate()) == 0;
+	}
+
+	public ArrayList<Particle> getActiveParticles() {
+		return activeParticles;
+	}
+
+	public void setActiveParticles(ArrayList<Particle> activeParticles) {
+		this.activeParticles = activeParticles;
+	}
+
+	public ArrayList<Particle> getInactiveParticles() {
+		return inactiveParticles;
+	}
+
+	public void setInactiveParticles(ArrayList<Particle> inactiveParticles) {
+		this.inactiveParticles = inactiveParticles;
 	}
 }

@@ -65,7 +65,7 @@ public class ParticleSystem {
 		this.setLifespan(lifespan);
 		this.setImage(image);
 		
-		emission = new AreaEmission(new PVector(0,0), 1, 1, 0);
+		setEmission(new AreaEmission(new PVector(0,0), 1, 1, 0));
 		setParticles(new ParticlesHandler(this, applet));
 	}
 	
