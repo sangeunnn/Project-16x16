@@ -42,7 +42,7 @@ public final class Slider extends Button {
         super.display();
 
         // display the thumb
-        applet.rect(x - (float) width / 2 + width * value, y, thumbSize, height + (float) thumbSize / 4);
+        applet.rect(getX() - (float) getWidth() / 2 + getWidth() * value, getY(), thumbSize, getHeight() + (float) thumbSize / 4);
     }
 
     public float getValue() {
@@ -55,6 +55,6 @@ public final class Slider extends Button {
 
 	@Override
 	public void intW() {
-		width = (int) applet.textWidth(getText()) + 160;
+		setWidth((int) applet.textWidth(getText()) + 160);
 	}
 }
