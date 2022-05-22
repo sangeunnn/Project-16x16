@@ -34,6 +34,7 @@ public abstract class PClass {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param a The SideScroller game controller.
 	 */
 	public PClass(SideScroller a) {
@@ -42,6 +43,7 @@ public abstract class PClass {
 
 	/**
 	 * prints a line to the applet. most likely for debugging purposes.
+	 * 
 	 * @param msg The line to be written.
 	 */
 	public void println(String msg) {
@@ -50,6 +52,7 @@ public abstract class PClass {
 
 	/**
 	 * Controlls the background color of the applet.
+	 * 
 	 * @param r red
 	 * @param g green
 	 * @param b blue
@@ -60,6 +63,7 @@ public abstract class PClass {
 
 	/**
 	 * Controls the background grey scale of the applet
+	 * 
 	 * @param g grey scale
 	 */
 	public void background(int g) {
@@ -68,9 +72,10 @@ public abstract class PClass {
 
 	/**
 	 * Sets the background image of the applet.
+	 * 
 	 * @param icon_eyeActive The image to use as PImage
-	 * @param x the x position for it
-	 * @param y the y position for it
+	 * @param x              the x position for it
+	 * @param y              the y position for it
 	 */
 	public void image(PImage icon_eyeActive, float x, float y) {
 		applet.image(icon_eyeActive, x, y);
@@ -78,6 +83,7 @@ public abstract class PClass {
 
 	/**
 	 * loads an image from source to use.
+	 * 
 	 * @param src the source path for the image
 	 * @return the image as a PImage
 	 */
@@ -87,6 +93,7 @@ public abstract class PClass {
 
 	/**
 	 * rounds a number
+	 * 
 	 * @param n the number to round
 	 * @return the rounded number
 	 */
