@@ -32,11 +32,21 @@ public class Notifications {
 
 	private static SideScroller game;
 
+	/**
+	 * SEONU
+	 * Refactoring
+	 * extract variable
+	 */
 	public static void assignApplet(SideScroller s) {
-		game = s;
-		positionTarget = new PVector(game.gameResolution.x - notificationWidth,
-				game.gameResolution.y - notificationHeight);
+		setGame(s);
+		
+		float _x = game.gameResolution.x - notificationWidth;
+		float _y = game.gameResolution.y - notificationHeight;
+		
+		positionTarget = new PVector(_x,_y);
+		
 		background = game.createImage(notificationWidth, notificationHeight, PApplet.ARGB);
+		
 		for (int i = 0; i < background.pixels.length; i++) {
 			float a = PApplet.map(i, 0, background.pixels.length, 255, 0);
 			background.pixels[i] = Utility.colorToRGB(50, 100, 150, a);
@@ -81,23 +91,32 @@ public class Notifications {
 	/**
 	 * Called on one notification
 	 */
+	/**
+	 * SEONU
+	 * todo
+	 * extract Method
+	 */
 	private void draw() {
+		
 		if (startTime == 0) {
 			game.tint(255, 255);
 			startTime = game.frameCount;
+			
 			if (notifications.size() > 2) {
-				if (notifications.size() < 6) {
+				
+				if (notifications.size() < 6) 
 					lifetime = notificationLifetimeFast;
-				} else {
+				else 
 					lifetime = notificationLifetimeVeryFast;
-				}
-			} else {
+				
+			}else 
 				lifetime = notificationLifetime;
-			}
 		}
-		if (position.y > positionTarget.y) {
+		
+		if (position.y > positionTarget.y)
 			position.y -= 10;
-		}
+		
+		
 		if ((game.frameCount - startTime) >= lifetime) {
 			game.tint(255, alpha);
 			alpha -= 10;
@@ -113,22 +132,36 @@ public class Notifications {
 		game.fill(255, 255, 255, alpha); // white title
 		game.image(background, position.x, position.y);
 		game.textSize(18);
+		
 		// @formatter:off
 		game.text("Notification: " + title,
 				position.x + notificationTextPadding,
 				position.y + notificationTextPadding,
 				notificationWidth - notificationTextPadding, 
 				notificationHeight - notificationTextPadding);
+		
 		game.textSize(15);
 		game.textLeading(14);
 		game.fill(255, 255, 255, alpha); // black message
+		
 		game.text(message,
 				position.x + notificationTextPadding,
 				position.y + notificationTextPadding + 32,
 				notificationWidth - notificationTextPadding, 
 				notificationHeight - notificationTextPadding);
 		 // @formatter:on
+		
 		game.noTint();
 		game.imageMode(CENTER);
 	}
+
+	public static SideScroller getGame() {
+		return game;
+	}
+
+	public static void setGame(SideScroller game) {
+		Notifications.game = game;
+	}
+	
+	
 }
