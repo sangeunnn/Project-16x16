@@ -124,6 +124,10 @@ public class Particle {
 	public void setAcceleration(PVector acceleration) {
 		this.acceleration = acceleration;
 	}
+	
+	public void updateAcceleration(PVector vector) {
+		this.acceleration.add(vector);
+	}
 
 	public int getFrameCount() {
 		return frameCount;
