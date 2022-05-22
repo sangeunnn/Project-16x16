@@ -30,28 +30,47 @@ public class ScrollBarHorizontal extends PClass {
 		barAnchor = new Anchor(anchor, 0, 0, container.Width()/5, container.getLocalHeight());
 		barAnchor.setAnchorOrigin(AnchorOrigin.TopLeft);
 	}
-	
+	/**
+	 * SEONU
+	 * Refactoring
+	 * extract Method
+	 */
 	public void display()
 	{
 		//Display ScrollBar
+		displayScrollBar();
+		
+		// DisplayLocationBar
+		displayLocationBar();
+	}
+
+	/**
+	 * SEONU
+	 * todo
+	 * Refactoring OR Design Pattern
+	 */
+	private void displayLocationBar() {
+		applet.fill(100);
+		barAnchor.setLocalX((int) PApplet.map(barLocation, 0, 1, 0, container.Width() - barAnchor.getLocalWidth()));
+		applet.rect(barAnchor.X(), barAnchor.Y(), barAnchor.Width(), barAnchor.Height());
+	}
+
+	private void displayScrollBar() {
 		applet.noStroke();
 		applet.fill(100, 100);
 		applet.rectMode(PApplet.CORNER);
 		applet.rect(container.X(), container.Y(), container.Width(), container.Height());
-		
-		// DisplayLocationBar
-		applet.fill(100);
-		barAnchor.setLocalX((int) PApplet.map(barLocation, 0, 1, 0, container.Width() - barAnchor.getLocalWidth()));
-		applet.rect(barAnchor.X(), barAnchor.Y(), barAnchor.Width(), barAnchor.Height());
 	}
 	
 	public void update() {
 		if (applet.mousePressEvent && container.hover()) {
 			barSelected = true;
 		}
+		
 		if (applet.mouseReleaseEvent) {
 			barSelected = false;
 		}
+		
 		if (barSelected)
 		{
 			barLocation = (float) PApplet.map(applet.mouseX, container.X() + container.Width() - (barAnchor.getLocalWidth()/2), container.X() + (barAnchor.getLocalWidth()/2), 1, 0);
