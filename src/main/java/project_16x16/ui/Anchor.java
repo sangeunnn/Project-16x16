@@ -3,29 +3,24 @@ package project_16x16.ui;
 import processing.core.PApplet;
 import project_16x16.SideScroller;
 
+
 public class Anchor {
 	
-	public enum AnchorOrigin
-	{
-		TopLeft,	Top, 	TopRight,
-		Left, 		Center, Right,
-		BottomLeft, Bottom, BottomRight,
-	}
-	
-	public enum Stretch
-	{
-		Horizontal, Vertical,  InverseHorizontal, InverseVertical, None
-	}
-	
+	/**
+	 * SeonU
+	 * Refactoring
+	 * 
+	 * public to private
+	**/
 	// position respect to anchor type
-	public int localX = 0; 
-	public int localY = 0;
+	private int localX = 0; 
+	private int localY = 0;
+
+	private int localWidth = 0;
+	private int localHeight = 0;
 	
-	public int localWidth = 0;
-	public int localHeight = 0;
-	
-	public AnchorOrigin anchorOrigin = AnchorOrigin.TopLeft;
-	public Stretch stretch = Stretch.None;
+	private AnchorOrigin anchorOrigin = AnchorOrigin.TopLeft;
+	private Stretch stretch = Stretch.None;
 	
 	private SideScroller applet;
 	private Anchor frame = null;
@@ -87,19 +82,19 @@ public class Anchor {
 		{
 			// case Left
 			case Left:  case TopLeft:  case BottomLeft:
-				value = localX + frameGlobalX();
+				value = getLocalX() + frameGlobalX();
 				break;
 			// case Right
 			case Right: case TopRight: case BottomRight:
-				value = (frameGlobalWidth() + localX) + frameGlobalX();
+				value = (frameGlobalWidth() + getLocalX()) + frameGlobalX();
 				break;
 			// case Center
 			case Center:
-				value = (frameGlobalWidth()/2 + localX) + frameGlobalX();
+				value = (frameGlobalWidth()/2 + getLocalX()) + frameGlobalX();
 				break;
 			// case Top or Bottom
 			default:
-				value = localX + frameGlobalX();
+				value = getLocalX() + frameGlobalX();
 				break;
 		}
 		return value;
@@ -111,19 +106,19 @@ public class Anchor {
 		{
 			// case TOP
 			case Top:    case TopLeft:    case TopRight:
-				value = localY + frameGlobalY();
+				value = getLocalY() + frameGlobalY();
 				break;
 			// case Bottom
 			case Bottom: case BottomLeft: case BottomRight:
-				value = (frameGlobalHeight() + localY) + frameGlobalY();
+				value = (frameGlobalHeight() + getLocalY()) + frameGlobalY();
 				break;
 			// case Center
 			case Center:
-				value = (frameGlobalHeight()/2 + localY) + frameGlobalY();
+				value = (frameGlobalHeight()/2 + getLocalY()) + frameGlobalY();
 				break;
 			// case Left or Right
 			default:
-				value = localY + frameGlobalY();
+				value = getLocalY() + frameGlobalY();
 				break;
 		}
 		return value;
@@ -206,4 +201,54 @@ public class Anchor {
 		applet.rect(X(), Y(), Width(), Height());
 		applet.rectMode(PApplet.CENTER);
 	}
+	
+	public AnchorOrigin getAnchorOrigin() {
+		return anchorOrigin;
+	}
+
+	public void setAnchorOrigin(AnchorOrigin anchorOrigin) {
+		this.anchorOrigin = anchorOrigin;
+	}
+	
+	public int getLocalHeight() {
+		return localHeight;
+	}
+
+	public void setLocalHeight(int localHeight) {
+		this.localHeight = localHeight;
+	}
+
+	public int getLocalWidth() {
+		return localWidth;
+	}
+
+	public void setLocalWidth(int localWidth) {
+		this.localWidth = localWidth;
+	}
+
+	public int getLocalX() {
+		return localX;
+	}
+
+	public void setLocalX(int localX) {
+		this.localX = localX;
+	}
+
+	public int getLocalY() {
+		return localY;
+	}
+
+	public void setLocalY(int localY) {
+		this.localY = localY;
+	}
+
+	public Stretch getStretch() {
+		return stretch;
+	}
+
+	public void setStretch(Stretch stretch) {
+		this.stretch = stretch;
+	}
+
+	
 }

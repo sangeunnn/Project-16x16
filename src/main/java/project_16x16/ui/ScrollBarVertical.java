@@ -1,7 +1,6 @@
 package project_16x16.ui;
 
 import project_16x16.ui.Anchor;
-import project_16x16.ui.Anchor.AnchorOrigin;
 import processing.core.*;
 import processing.event.MouseEvent;
 import project_16x16.PClass;
@@ -26,8 +25,8 @@ public class ScrollBarVertical extends PClass {
 	
 	public void setAnchor(Anchor anchor){
 		container = anchor;
-		barAnchor = new Anchor(anchor, 0, 0, container.localWidth, container.Height()/5);
-		barAnchor.anchorOrigin = AnchorOrigin.TopLeft;
+		barAnchor = new Anchor(anchor, 0, 0, container.getLocalWidth(), container.Height()/5);
+		barAnchor.setAnchorOrigin(AnchorOrigin.TopLeft);
 	}
 	
 	public void display() {
@@ -39,7 +38,7 @@ public class ScrollBarVertical extends PClass {
 		
 		// DisplayLocationBar
 		applet.fill(100);
-		barAnchor.localY = (int) PApplet.map(barLocation, 0, 1, 0, container.Height() - barAnchor.localHeight);
+		barAnchor.setLocalY((int) PApplet.map(barLocation, 0, 1, 0, container.Height() - barAnchor.getLocalHeight()));
 		applet.rect(barAnchor.X(), barAnchor.Y(), barAnchor.Width(), barAnchor.Height());
 	}
 	
@@ -52,17 +51,17 @@ public class ScrollBarVertical extends PClass {
 		}
 		if (barSelected)
 		{
-			barLocation = (float) PApplet.map(applet.mouseY, container.Y() + container.Height() - (barAnchor.localHeight/2), container.Y() + (barAnchor.localHeight/2), 1, 0);
+			barLocation = (float) PApplet.map(applet.mouseY, container.Y() + container.Height() - (barAnchor.getLocalHeight()/2), container.Y() + (barAnchor.getLocalHeight()/2), 1, 0);
 			barLocation = Utility.clamp(barLocation, 0, 1);
 		}
 	}
 	
 	public void setBarRatio(float value) {
-		barAnchor.localHeight = (int) (value * container.Height());
+		barAnchor.setLocalHeight((int) (value * container.Height()));
 	}
 	
 	public void mouseWheel(MouseEvent event) {
-		barLocation += event.getCount() * (container.localHeight * 0.0005f); //0.1f
+		barLocation += event.getCount() * (container.getLocalHeight() * 0.0005f); //0.1f
 		barLocation = Utility.clamp(barLocation, 0, 1);
 	}
 }
