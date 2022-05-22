@@ -13,7 +13,7 @@ import project_16x16.particleSystem.Particle;
  */
 public class ParticalVelocityController implements ParticleEventListener {
 
-	PVector velocity;
+	private PVector velocity;
 	
 	/**
 	 * Adds velocity to a particle on spawn.
@@ -27,7 +27,7 @@ public class ParticalVelocityController implements ParticleEventListener {
 
 	@Override
 	public void onParticleSpawnEvent(Particle particle) {
-		particle.velocity.add(velocity);
+		particle.updateVelocity(velocity);
 	}
 
 	@Override

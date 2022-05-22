@@ -23,16 +23,16 @@ public class ParticleSystem {
 	public static final int FRAMERATE = 60;
 	
 	private SideScroller applet;
-	public PImage image;
-	public ParticleEmission emission;
-	public Particles particles;
+	private PImage image;
+	private ParticleEmission emission;
+	private ParticlesHandler particles;
 	
 	private ArrayList<ParticleEventListener> listeners = new ArrayList<ParticleEventListener>();
 	
-	public int spawnRate;
-	public int spawnAmount;
-	public float lifespan;
-	public boolean spawn = true;
+	private int spawnRate;
+	private int spawnAmount;
+	private float lifespan;
+	private boolean spawn = true;
 
 	/**
      * Create a new particle system.
@@ -60,27 +60,27 @@ public class ParticleSystem {
      */
 	public ParticleSystem(SideScroller applet, PImage image, int spawnRate, int spawnAmount, float lifespan) {
 		this.applet = applet;
-		this.spawnRate = spawnRate;
-		this.spawnAmount = spawnAmount;
-		this.lifespan = lifespan;
-		this.image = image;
+		this.setSpawnRate(spawnRate);
+		this.setSpawnAmount(spawnAmount);
+		this.setLifespan(lifespan);
+		this.setImage(image);
 		
-		emission = new AreaEmission(new PVector(0,0), 1, 1, 0);
-		particles = new Particles(this, applet);
+		setEmission(new AreaEmission(new PVector(0,0), 1, 1, 0));
+		setParticles(new ParticlesHandler(this, applet));
 	}
 	
 	public void run() {
-		particles.run();
+		getParticles().run();
 	}
 	
 	public void preLoad() {
-		for(int i = 0; i < lifespan*FRAMERATE; i+=FRAMERATE/spawnRate)
-			for(int k = 0; k < spawnAmount; k++)
-					ParticlePreloadSystem.preload(i).accept(particles.newParticle());
+		for(int i = 0; i < getLifespan()*FRAMERATE; i+=FRAMERATE/getSpawnRate())
+			for(int k = 0; k < getSpawnAmount(); k++)
+					ParticlePreloadSystem.preload(i).accept(getParticles().newParticle());
 	}
 	
 	public ParticleSystem copy() {
-		ParticleSystem copy = new ParticleSystem(applet, image, spawnRate, spawnAmount, lifespan);
+		ParticleSystem copy = new ParticleSystem(applet, getImage(), getSpawnRate(), getSpawnAmount(), getLifespan());
 		copy.setEmission(emission.copy());
 		for(ParticleEventListener mod : listeners)
 			copy.addEventListener(mod.copy());
@@ -119,5 +119,57 @@ public class ParticleSystem {
 	
 	public void onParticleDeathEvent(Particle particle) {
 		listeners.forEach(l -> l.onParticleDeathEvent(particle));
+	}
+
+	public float getLifespan() {
+		return lifespan;
+	}
+
+	public void setLifespan(float lifespan) {
+		this.lifespan = lifespan;
+	}
+
+	public boolean isSpawn() {
+		return spawn;
+	}
+
+	public void setSpawn(boolean spawn) {
+		this.spawn = spawn;
+	}
+
+	public int getSpawnRate() {
+		return spawnRate;
+	}
+
+	public void setSpawnRate(int spawnRate) {
+		this.spawnRate = spawnRate;
+	}
+
+	public PImage getImage() {
+		return image;
+	}
+
+	public void setImage(PImage image) {
+		this.image = image;
+	}
+
+	public int getSpawnAmount() {
+		return spawnAmount;
+	}
+
+	public void setSpawnAmount(int spawnAmount) {
+		this.spawnAmount = spawnAmount;
+	}
+
+	public ParticlesHandler getParticles() {
+		return particles;
+	}
+
+	public void setParticles(ParticlesHandler particles) {
+		this.particles = particles;
+	}
+
+	public void updateEmission(Particle p) {
+		this.emission.setPosition(p.getPosition());
 	}
 }

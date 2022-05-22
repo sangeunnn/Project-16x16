@@ -37,8 +37,8 @@ public class ParticleAnimationController implements ParticleEventListener {
 	 *               of particle
 	 */
 	public ParticleAnimationController(ArrayList<PImage> images, int rate) {
-		this.images = images;
-		this.rate = rate;
+		this.setImages(images);
+		this.setRate(rate);
 	}
 	
 	@Override
@@ -55,24 +55,40 @@ public class ParticleAnimationController implements ParticleEventListener {
 	
 	@Override
 	public ParticleEventListener copy() {
-		return new ParticleAnimationController(images, rate);
+		return new ParticleAnimationController(getImages(), getRate());
 	}
 	
 	private void setParticle(Particle particle) {
-		if (rate == -1) {
-			particle.image = getImage(particle.maxLifespan, particle.lifespan);
+		if (getRate() == -1) {
+			particle.setImage(getImage(particle.getMaxLifespan(), particle.getLifespan()));
 		} else {
-			particle.image = getImage(particle.frameCount);
+			particle.setImage(getImage(particle.getFrameCount()));
 		}
 	}
 	
 	private PImage getImage(int frameCount) {
-		int id = (frameCount/rate) % images.size();
-		return images.get(id);
+		int id = (frameCount/getRate()) % getImages().size();
+		return getImages().get(id);
 	}
 	
 	private PImage getImage(float maxLife, float currentLife) {
-		int id = (int) PApplet.map(currentLife, maxLife, 0, 0, images.size()-1);
-		return images.get(id);
+		int id = (int) PApplet.map(currentLife, maxLife, 0, 0, getImages().size()-1);
+		return getImages().get(id);
+	}
+
+	public int getRate() {
+		return rate;
+	}
+
+	public void setRate(int rate) {
+		this.rate = rate;
+	}
+
+	public ArrayList<PImage> getImages() {
+		return images;
+	}
+
+	public void setImages(ArrayList<PImage> images) {
+		this.images = images;
 	}
 }

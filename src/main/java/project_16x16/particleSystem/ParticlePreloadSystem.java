@@ -17,18 +17,18 @@ public class ParticlePreloadSystem {
 
 	public static Consumer<Particle> preload(int frames) {
 		return p -> {
-			p.lifespan -= frames;
-			p.frameCount = frames;
+			p.decreaseLifespan(frames);
+			p.setFrameCount(frames);
 			if (!p.isDead()) {
-				p.position.add(positionDeltaIntegral(p, frames));
-				p.velocity.add(p.acceleration.copy().mult(frames));
+				p.updatePosition(positionDeltaIntegral(p, frames));
+				p.updateVelocity(p.getAcceleration().copy().mult(frames));
 			}
 		};
 	}
 	
 	private static PVector positionDeltaIntegral(Particle p, int frames) {
-		float deltaX = (float) (p.position.x + p.velocity.x*frames + 0.5*p.acceleration.x*frames*frames);
-		float deltaY = (float) (p.position.y + p.velocity.y*frames + 0.5*p.acceleration.y*frames*frames);
+		float deltaX = (float) (p.getPosition().x + p.getVelocity().x*frames + 0.5*p.getAcceleration().x*frames*frames);
+		float deltaY = (float) (p.getPosition().y + p.getVelocity().y*frames + 0.5*p.getAcceleration().y*frames*frames);
 		return new PVector(deltaX, deltaY);
 	}
 }

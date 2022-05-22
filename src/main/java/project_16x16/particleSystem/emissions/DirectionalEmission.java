@@ -1,10 +1,7 @@
 package project_16x16.particleSystem.emissions;
 
 import java.util.Random;
-import java.util.function.Consumer;
-
 import processing.core.PVector;
-import project_16x16.particleSystem.Particle;
 
 /**
  * AreaEmission
@@ -14,18 +11,7 @@ import project_16x16.particleSystem.Particle;
  *
  * @author petturtle
  */
-public class DirectionalEmission implements ParticleEmission {
-
-	private PVector position;
-	private float velocity;
-	private float acceleration;
-	private float spread;
-	private float angle;
-	
-	private PVector newPosition;
-	private PVector newVelocity;
-	private PVector newAcceleration;
-	
+public class DirectionalEmission extends ParticleEmission {	
 	/**
      * Create a new DirectionalEmission.
 
@@ -36,11 +22,20 @@ public class DirectionalEmission implements ParticleEmission {
      * @param angle		   direction angle (radians)
      */
 	public DirectionalEmission(PVector position, float velocity, float acceleration, float spread, float angle) {
-		this.position = position;
-		this.velocity = velocity;
-		this.acceleration = acceleration;
-		this.spread = spread;
+		super(position, velocity, acceleration, spread);
 		this.angle = angle;
+	}
+
+	public void newVelocity() {
+		newVelocity = new PVector();
+		newVelocity.x = (float) (velocity*Math.cos(angle));
+		newVelocity.y = (float) (velocity*Math.sin(angle));
+	}
+
+	public void newAcceleration() {
+		newAcceleration = new PVector();
+		newAcceleration.x = (float) (acceleration*Math.cos(angle));
+		newAcceleration.y = (float) (acceleration*Math.sin(angle));
 	}
 	
 	public void generateNew() {
@@ -49,40 +44,14 @@ public class DirectionalEmission implements ParticleEmission {
 		newAcceleration();
 	}
 	
-	private void newPosition() {
+	@Override
+	public void newPosition() {
 		PVector p = position.copy();
 		Random ran = new Random();
 		float offset = (ran.nextFloat()*spread*2f)-spread;
 		p.x += (float) (offset*Math.cos(angle+Math.PI/2));
 		p.y += (float) (offset*Math.sin(angle+Math.PI/2));
-		newPosition = p;
-	}
-
-	private void newVelocity() {
-		newVelocity = new PVector();
-		newVelocity.x = (float) (velocity*Math.cos(angle));
-		newVelocity.y = (float) (velocity*Math.sin(angle));
-	}
-
-	private void newAcceleration() {
-		newAcceleration = new PVector();
-		newAcceleration.x = (float) (acceleration*Math.cos(angle));
-		newAcceleration.y = (float) (acceleration*Math.sin(angle));
-	}
-	
-	@Override
-	public Consumer<Particle> getConsumer() {
-		return p -> {
-			generateNew();
-			p.position = newPosition;
-			p.velocity = newVelocity;
-			p.acceleration = newAcceleration;
-		};
-	}
-	
-	@Override
-	public void setPosition(PVector position) {
-		this.position = position;
+		setPosition(p);
 	}
 	
 	@Override
