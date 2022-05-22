@@ -25,6 +25,18 @@ public class DirectionalEmission extends ParticleEmission {
 		super(position, velocity, acceleration, spread);
 		this.angle = angle;
 	}
+
+	public void newVelocity() {
+		newVelocity = new PVector();
+		newVelocity.x = (float) (velocity*Math.cos(angle));
+		newVelocity.y = (float) (velocity*Math.sin(angle));
+	}
+
+	public void newAcceleration() {
+		newAcceleration = new PVector();
+		newAcceleration.x = (float) (acceleration*Math.cos(angle));
+		newAcceleration.y = (float) (acceleration*Math.sin(angle));
+	}
 	
 	public void generateNew() {
 		newPosition();

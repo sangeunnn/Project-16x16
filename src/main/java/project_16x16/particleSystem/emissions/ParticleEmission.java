@@ -31,23 +31,11 @@ public abstract class ParticleEmission {
 	public abstract ParticleEmission copy();
 
 	public abstract void generateNew();
-
-	public void newVelocity() {
-		newVelocity = new PVector();
-		newVelocity.x = (float) (velocity*Math.cos(angle));
-		newVelocity.y = (float) (velocity*Math.sin(angle));
-	}
 	
 	public void newVelocity(float phi) {
 		newVelocity = new PVector();
 		newVelocity.x = (float) (velocity*Math.cos(phi));
 		newVelocity.y = (float) (velocity*Math.sin(phi));
-	}
-
-	public void newAcceleration() {
-		newAcceleration = new PVector();
-		newAcceleration.x = (float) (acceleration*Math.cos(angle));
-		newAcceleration.y = (float) (acceleration*Math.sin(angle));
 	}
 
 	public void newAcceleration(float phi) {
@@ -71,5 +59,11 @@ public abstract class ParticleEmission {
 			p.setVelocity(newVelocity);
 			p.setAcceleration(newAcceleration);
 		};
+	}
+
+	public void newParameters(float phi) {
+		newPosition();
+		newVelocity(phi);
+		newAcceleration(phi);
 	}
 }

@@ -24,9 +24,7 @@ public class AreaEmission extends ParticleEmission {
 	
 	public void generateNew() {
 		float phi = (float) (2*Math.PI*Math.random());
-		newPosition();
-		newVelocity(phi);
-		newAcceleration(phi);
+		newParameters(phi);
 	}
 	
 

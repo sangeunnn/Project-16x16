@@ -35,9 +35,7 @@ public class ArchEmission extends ParticleEmission {
 	public void generateNew() {
 		Random ran = new Random();
 		float phi = ran.nextFloat()*(maxAngle-minAngle)+minAngle;
-		newPosition();
-		newVelocity(phi);
-		newAcceleration(phi);
+		newParameters(phi);
 	}
 
 	@Override

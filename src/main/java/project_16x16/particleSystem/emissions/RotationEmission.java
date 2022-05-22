@@ -33,9 +33,7 @@ public class RotationEmission extends ParticleEmission {
 
 	public void generateNew() {
 		phi += div;
-		newPosition();
-		newVelocity(phi);
-		newAcceleration(phi);
+		newParameters(phi);
 	}
 	
 	@Override
