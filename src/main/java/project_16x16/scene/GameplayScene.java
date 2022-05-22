@@ -35,7 +35,9 @@ import project_16x16.components.Tile.TileType;
 import project_16x16.Audio.BGM;
 import project_16x16.SideScroller.GameScenes;
 import project_16x16.ui.Anchor;
+import project_16x16.ui.AnchorOrigin;
 import project_16x16.ui.ScrollBarVertical;
+import project_16x16.ui.Stretch;
 import project_16x16.ui.Tab;
 import project_16x16.windows.ImportLevelWindow;
 import project_16x16.windows.LoadLevelWindow;
@@ -168,8 +170,8 @@ public class GameplayScene extends PScene {
 
 		// Init ScollBar
 		Anchor scrollBarAnchor = new Anchor(applet, -20, 102, 20, 50);
-		scrollBarAnchor.anchorOrigin = Anchor.AnchorOrigin.TopRight;
-		scrollBarAnchor.stretch = Anchor.Stretch.Vertical;
+		scrollBarAnchor.setAnchorOrigin(AnchorOrigin.TopRight);
+		scrollBarAnchor.setStretch(Stretch.Vertical);
 		scrollBar = new ScrollBarVertical(scrollBarAnchor);
 		scrollBar.setBarRatio(getBarRatio(getTotalInventoryItems() / 6, 50, 3f));
 
