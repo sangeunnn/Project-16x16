@@ -32,12 +32,12 @@ public class Multiplayer {
 		this.setHost(isHost);
 		setData(null);
 		if (isHost) {
-			setServer(player, port);
+			setServer(new Server(player, port));
 			if (!getServer().active()) {
 				throw new java.net.ConnectException();
 			}
 		} else {
-			setClient(player, hostIP, port);
+			setClient(new Client(player, hostIP, port));
 			if (!getClient().active()) {
 				throw new java.net.ConnectException();
 			}
@@ -90,8 +90,8 @@ public class Multiplayer {
 		}
 	}
 
-	public void setServer(SideScroller player, int port){
-		server = new Server(player, port);
+	public void setServer(Server server){
+		this.server = server;
 	}
 	
 	public Server getServer(){
@@ -100,10 +100,6 @@ public class Multiplayer {
 
 	public void setClient(Client client) {
 		this.client = client;
-	}
-
-	public void setClient(SideScroller player, String hostIP, int port){
-		client = new Client(player, hostIP, port);
 	}
 
 	public Client getClient(){
