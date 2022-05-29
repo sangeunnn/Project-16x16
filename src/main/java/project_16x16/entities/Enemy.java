@@ -30,6 +30,7 @@ import project_16x16.scene.GameplayScene;
 public class Enemy extends CollidableObject {
 
 	private PImage image;
+	private CollisionOccur collideoccur;
 
 	float gravity;
 
@@ -136,7 +137,7 @@ public class Enemy extends CollidableObject {
 						applet.noFill();
 					}
 
-					if (collidesFuturX(collision)) {
+					if (collideoccur.collidesFuturX(pos, velocity, width, height, collision)) {
 						// enemy left of collision
 						if (pos.x < collision.pos.x) {
 							pos.x = collision.pos.x - collision.width / 2 - width / 2;
@@ -147,7 +148,7 @@ public class Enemy extends CollidableObject {
 						velocity.x = 0;
 						enemyState.dashing = false;
 					}
-					if (collidesFuturY(collision)) {
+					if (collideoccur.collidesFuturY(pos, velocity, width, height, collision)) {
 						// enemy above collision
 						if (pos.y < collision.pos.y) {
 							if (enemyState.flying) {
@@ -167,48 +168,50 @@ public class Enemy extends CollidableObject {
 		}
 	}
 
-	/**
-	 * 
-	 * Determines is the character has collided with an object of type Collision.
-	 * 
-	 * @param collision The other object
-	 * @return boolean if it has or has not collided with the object.
-	 */
-	private boolean collides(CollidableObject collision) {
-		return (pos.x + width / 2 > collision.pos.x - collision.width / 2
-				&& pos.x - width / 2 < collision.pos.x + collision.width / 2)
-				&& (pos.y + height / 2 > collision.pos.y - collision.height / 2
-						&& pos.y - height / 2 < collision.pos.y + collision.height / 2);
-	}
+	// /**
+	// *
+	// * Determines is the character has collided with an object of type Collision.
+	// *
+	// * @param collision The other object
+	// * @return boolean if it has or has not collided with the object.
+	// */
+	// private boolean collides(CollidableObject collision) {
+	// return (pos.x + width / 2 > collision.pos.x - collision.width / 2
+	// && pos.x - width / 2 < collision.pos.x + collision.width / 2)
+	// && (pos.y + height / 2 > collision.pos.y - collision.height / 2
+	// && pos.y - height / 2 < collision.pos.y + collision.height / 2);
+	// }
 
-	// TODO: optimize these (unused)
-	private boolean collidesEqual(CollidableObject collision) {
-		return (pos.x + width / 2 >= collision.pos.x - collision.width / 2
-				&& pos.x - width / 2 <= collision.pos.x + collision.width / 2)
-				&& (pos.y + height / 2 >= collision.pos.y - collision.height / 2
-						&& pos.y - height / 2 <= collision.pos.y + collision.height / 2);
-	}
+	// // TODO: optimize these (unused)
+	// private boolean collidesEqual(CollidableObject collision) {
+	// return (pos.x + width / 2 >= collision.pos.x - collision.width / 2
+	// && pos.x - width / 2 <= collision.pos.x + collision.width / 2)
+	// && (pos.y + height / 2 >= collision.pos.y - collision.height / 2
+	// && pos.y - height / 2 <= collision.pos.y + collision.height / 2);
+	// }
 
-	private boolean collidesFutur(CollidableObject collision) {
-		return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width / 2
-				&& pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
-				&& (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
-						&& pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
-	}
+	// private boolean collidesFutur(CollidableObject collision) {
+	// return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width /
+	// 2
+	// && pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
+	// && (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
+	// && pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
+	// }
 
-	private boolean collidesFuturX(CollidableObject collision) {
-		return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width / 2
-				&& pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
-				&& (pos.y + 0 + height / 2 > collision.pos.y - collision.height / 2
-						&& pos.y + 0 - height / 2 < collision.pos.y + collision.height / 2);
-	}
+	// private boolean collidesFuturX(CollidableObject collision) {
+	// return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width /
+	// 2
+	// && pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
+	// && (pos.y + 0 + height / 2 > collision.pos.y - collision.height / 2
+	// && pos.y + 0 - height / 2 < collision.pos.y + collision.height / 2);
+	// }
 
-	private boolean collidesFuturY(CollidableObject collision) {
-		return (pos.x + 0 + width / 2 > collision.pos.x - collision.width / 2
-				&& pos.x + 0 - width / 2 < collision.pos.x + collision.width / 2)
-				&& (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
-						&& pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
-	}
+	// private boolean collidesFuturY(CollidableObject collision) {
+	// return (pos.x + 0 + width / 2 > collision.pos.x - collision.width / 2
+	// && pos.x + 0 - width / 2 < collision.pos.x + collision.width / 2)
+	// && (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
+	// && pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
+	// }
 
 	// public class EnemyState {
 	// public boolean flying;
