@@ -126,13 +126,6 @@ public class Enemy extends CollidableObject {
 		enemyState = false;
 	}
 
-	public boolean setCollidePosition(CollidableObject collision) {
-		return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width / 2
-				&& pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
-				&& (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
-						&& pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
-	}
-
 	private void checkEnemyCollision() {
 		for (EditableObject o : gameScene.objects) {
 			if (o.equals(this))
@@ -187,44 +180,39 @@ public class Enemy extends CollidableObject {
 	 * @param collision The other object
 	 * @return boolean if it has or has not collided with the object.
 	 */
-	private boolean collides(CollidableObject collision) {
-		return setCollidePosition(collision);
-	}
+	// private boolean collides() {
+	// }
 
 	// TODO: optimize these (unused)
-	private boolean collidesEqual(CollidableObject collision) {
-		// return (pos.x + width / 2 >= collision.pos.x - collision.width / 2
-		// && pos.x - width / 2 <= collision.pos.x + collision.width / 2)
-		// && (pos.y + height / 2 >= collision.pos.y - collision.height / 2
-		// && pos.y - height / 2 <= collision.pos.y + collision.height / 2);
-		return setCollidePosition(collision);
-	}
+	// private boolean collidesEqual() {
+	// return (pos.x + width / 2 >= collision.pos.x - collision.width / 2
+	// && pos.x - width / 2 <= collision.pos.x + collision.width / 2)
+	// && (pos.y + height / 2 >= collision.pos.y - collision.height / 2
+	// && pos.y - height / 2 <= collision.pos.y + collision.height / 2);
+	// }
 
-	private boolean collidesFutur(CollidableObject collision) {
-		// return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width /
-		// 2
-		// && pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
-		// && (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
-		// && pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
-		return setCollidePosition(collision);
-	}
+	// private boolean collidesFutur() {
+	// return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width /
+	// 2
+	// && pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
+	// && (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
+	// && pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
+	// }
 
-	private boolean collidesFuturX(CollidableObject collision) {
-		// return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width /
-		// 2
-		// && pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
-		// && (pos.y + 0 + height / 2 > collision.pos.y - collision.height / 2
-		// && pos.y + 0 - height / 2 < collision.pos.y + collision.height / 2);
-		return setCollidePosition(collision);
-	}
+	// private boolean collidesFuturX() {
+	// return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width /
+	// 2
+	// && pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
+	// && (pos.y + 0 + height / 2 > collision.pos.y - collision.height / 2
+	// && pos.y + 0 - height / 2 < collision.pos.y + collision.height / 2);
+	// }
 
-	private boolean collidesFuturY(CollidableObject collision) {
-		// return (pos.x + 0 + width / 2 > collision.pos.x - collision.width / 2
-		// && pos.x + 0 - width / 2 < collision.pos.x + collision.width / 2)
-		// && (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
-		// && pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
-		return setCollidePosition(collision);
-	}
+	// private boolean collidesFuturY() {
+	// return (pos.x + 0 + width / 2 > collision.pos.x - collision.width / 2
+	// && pos.x + 0 - width / 2 < collision.pos.x + collision.width / 2)
+	// && (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
+	// && pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
+	// }
 
 	@Override
 	public void debug() {
