@@ -200,12 +200,7 @@ public final class Player extends EditableObject {
 		}
 	}
 
-	// public PVector getVelocity() {
-	// return new PVector();
-	// }
-
 	public State getState() {
-
 		return state;
 	}
 
@@ -239,13 +234,6 @@ public final class Player extends EditableObject {
 	public void changePosition(CollidableObject collision, Boolean enemyState) {
 		pos.y = collision.pos.y - collision.height / 2 - height / 2;
 		enemyState = false;
-	}
-
-	public boolean setCollidePosition(CollidableObject collision) {
-		return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width / 2
-				&& pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
-				&& (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
-						&& pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
 	}
 
 	private void handleMouseInput() {
