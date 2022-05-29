@@ -200,6 +200,7 @@ public final class Player extends EditableObject {
 	}
 
 	public State getState() {
+
 		return state;
 	}
 
@@ -228,6 +229,18 @@ public final class Player extends EditableObject {
 			velocity.x = -speedWalk * (state.dashing ? dashMultiplier : 1);
 			state.facingDir = LEFT;
 		}
+	}
+
+	public void changePosition(CollidableObject collision, Boolean enemyState) {
+		pos.y = collision.pos.y - collision.height / 2 - height / 2;
+		enemyState = false;
+	}
+
+	public boolean setCollidePosition(CollidableObject collision) {
+		return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width / 2
+				&& pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
+				&& (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
+						&& pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
 	}
 
 	private void handleMouseInput() {
@@ -271,12 +284,14 @@ public final class Player extends EditableObject {
 							if (state.flying) {
 								state.landing = true;
 							}
-							pos.y = collision.pos.y - collision.height / 2 - height / 2;
-							state.flying = false;
+							// pos.y = collision.pos.y - collision.height / 2 - height / 2;
+							// state.flying = false;
+							changePosition(collision, state.flying);
 							// player below collision
 						} else {
-							pos.y = collision.pos.y + collision.height / 2 + height / 2;
-							state.jumping = false;
+							// pos.y = collision.pos.y + collision.height / 2 + height / 2;
+							// state.jumping = false;
+							changePosition(collision, state.flying);
 						}
 						velocity.y = 0;
 					}
@@ -348,31 +363,40 @@ public final class Player extends EditableObject {
 
 	// TODO: optimize these (unused)
 	private boolean collidesEqual(CollidableObject collision) {
-		return (pos.x + width / 2 >= collision.pos.x - collision.width / 2
-				&& pos.x - width / 2 <= collision.pos.x + collision.width / 2)
-				&& (pos.y + height / 2 >= collision.pos.y - collision.height / 2
-						&& pos.y - height / 2 <= collision.pos.y + collision.height / 2);
+		// return (pos.x + width / 2 >= collision.pos.x - collision.width / 2
+		// && pos.x - width / 2 <= collision.pos.x + collision.width / 2)
+		// && (pos.y + height / 2 >= collision.pos.y - collision.height / 2
+		// && pos.y - height / 2 <= collision.pos.y + collision.height / 2);
+		return setCollidePosition(collision);
 	}
 
 	private boolean collidesFutur(CollidableObject collision) {
-		return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width / 2
-				&& pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
-				&& (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
-						&& pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
+		// return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width /
+		// 2
+		// && pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
+		// && (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
+		// && pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
+		return setCollidePosition(collision);
+
 	}
 
 	private boolean collidesFuturX(CollidableObject collision) {
-		return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width / 2
-				&& pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
-				&& (pos.y + 0 + height / 2 > collision.pos.y - collision.height / 2
-						&& pos.y + 0 - height / 2 < collision.pos.y + collision.height / 2);
+		// return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width /
+		// 2
+		// && pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
+		// && (pos.y + 0 + height / 2 > collision.pos.y - collision.height / 2
+		// && pos.y + 0 - height / 2 < collision.pos.y + collision.height / 2);
+		return setCollidePosition(collision);
+
 	}
 
 	private boolean collidesFuturY(CollidableObject collision) {
-		return (pos.x + 0 + width / 2 > collision.pos.x - collision.width / 2
-				&& pos.x + 0 - width / 2 < collision.pos.x + collision.width / 2)
-				&& (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
-						&& pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
+		// return (pos.x + 0 + width / 2 > collision.pos.x - collision.width / 2
+		// && pos.x + 0 - width / 2 < collision.pos.x + collision.width / 2)
+		// && (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
+		// && pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
+		return setCollidePosition(collision);
+
 	}
 
 	public void setAnimation(String anim) {
