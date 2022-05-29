@@ -45,6 +45,7 @@ public class Enemy extends CollidableObject {
 
 	State enemyState;
 
+
 	/**
 	 * Constructor
 	 * 
@@ -117,6 +118,7 @@ public class Enemy extends CollidableObject {
 	// }
 
 	public State getState() {
+
 		return enemyState;
 	}
 
@@ -228,6 +230,7 @@ public class Enemy extends CollidableObject {
 	// landing = false;
 	// }
 	// }
+
 
 	@Override
 	public void debug() {
