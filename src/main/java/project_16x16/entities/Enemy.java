@@ -42,7 +42,8 @@ public class Enemy extends CollidableObject {
 
 	public int health;
 
-	EnemyState enemyState;
+	State enemyState;
+
 
 	/**
 	 * Constructor
@@ -58,7 +59,7 @@ public class Enemy extends CollidableObject {
 		speedJump = 18;
 		width = 14 * 4;
 		height = 10 * 4;
-		enemyState = new EnemyState();
+		enemyState = new State();
 	}
 
 	/**
@@ -115,7 +116,8 @@ public class Enemy extends CollidableObject {
 		return velocity.copy();
 	}
 
-	public EnemyState getState() {
+	public State getState() {
+
 		return enemyState;
 	}
 
@@ -208,23 +210,24 @@ public class Enemy extends CollidableObject {
 						&& pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
 	}
 
-	public class EnemyState {
-		public boolean flying;
-		public boolean attacking;
-		public boolean dashing;
-		public int facingDir;
-		public boolean landing;
-		public boolean jumping;
+	// public class EnemyState {
+	// public boolean flying;
+	// public boolean attacking;
+	// public boolean dashing;
+	// public int facingDir;
+	// public boolean landing;
+	// public boolean jumping;
 
-		EnemyState() {
-			flying = false;
-			attacking = false;
-			dashing = false;
-			facingDir = RIGHT;
-			jumping = false;
-			landing = false;
-		}
-	}
+	// EnemyState() {
+	// flying = false;
+	// attacking = false;
+	// dashing = false;
+	// facingDir = RIGHT;
+	// jumping = false;
+	// landing = false;
+	// }
+	// }
+
 
 	@Override
 	public void debug() {

@@ -36,6 +36,9 @@ public final class Player extends EditableObject {
 	private final PImage lifeOn;
 	private final PImage lifeOff;
 
+	/***** refactoring by sangeunnn ******/
+	/* Player and Enimy both entities use this PVector in same update logic */
+	/* I will */
 	private final PVector velocity = new PVector(0, 0);
 
 	private static final int collisionRange = 145;
@@ -64,7 +67,7 @@ public final class Player extends EditableObject {
 		WALK, IDLE, JUMP, LAND, FALL, ATTACK, DASH, DASH_ATTACK
 	}
 
-	private PlayerState state;
+	private State state;
 
 	static {
 		playerAnimationSequences = new HashMap<ACTION, ArrayList<PImage>>();
@@ -106,7 +109,7 @@ public final class Player extends EditableObject {
 		width = 14 * 4;
 		height = 16 * 4;
 
-		state = new PlayerState();
+		state = new State();
 
 		setAnimation(ACTION.IDLE);
 		this.isMultiplayerPlayer = isMultiplayerPlayer;
@@ -196,7 +199,8 @@ public final class Player extends EditableObject {
 		return velocity.copy();
 	}
 
-	public PlayerState getState() {
+	public State getState() {
+
 		return state;
 	}
 
@@ -441,23 +445,23 @@ public final class Player extends EditableObject {
 		animation.name = anim.name();
 	}
 
-	public class PlayerState {
-		public boolean flying;
-		public boolean attacking;
-		public boolean dashing;
-		public int facingDir;
-		public boolean landing;
-		public boolean jumping;
+	// public class PlayerState {
+	// public boolean flying;
+	// public boolean attacking;
+	// public boolean dashing;
+	// public int facingDir;
+	// public boolean landing;
+	// public boolean jumping;
 
-		PlayerState() {
-			flying = false;
-			attacking = false;
-			dashing = false;
-			facingDir = RIGHT;
-			jumping = false;
-			landing = false;
-		}
-	}
+	// PlayerState() {
+	// flying = false;
+	// attacking = false;
+	// dashing = false;
+	// facingDir = RIGHT;
+	// jumping = false;
+	// landing = false;
+	// }
+	// }
 
 	@Override
 	public void debug() {
