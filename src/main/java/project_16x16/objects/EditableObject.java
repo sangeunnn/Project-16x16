@@ -50,10 +50,12 @@ public abstract class EditableObject extends PClass {
 		editOffset = new PVector(0, 0);
 		gameScene = g;
 	}
-	
+
 	public abstract void display();
+
 	public abstract void debug();
-	public abstract JSONObject exportToJSON(); 
+
+	public abstract JSONObject exportToJSON();
 
 	/**
 	 * Draws position edit arrows and bounding box if the object is selected
@@ -110,14 +112,14 @@ public abstract class EditableObject extends PClass {
 			if (applet.keyPressEvent && applet.isKeyDown(SideScroller.SHIFT)) {
 				EditableObject copy; // Duplicate Instance
 				switch (type) {
-					case COLLISION :
+					case COLLISION:
 						copy = new CollidableObject(applet, gameScene, id, 0, 0);
 						copy.focus = true;
 						copy.pos = pos.copy();
 						copy.editOffset = editOffset.copy();
 						gameScene.objects.add(copy);
 						break;
-					case OBJECT :
+					case OBJECT:
 						try {
 							Class<? extends GameObject> gameObjectClass = Tileset.getObjectClass(id);
 							Constructor<?> ctor = gameObjectClass.getDeclaredConstructors()[0];
@@ -131,13 +133,13 @@ public abstract class EditableObject extends PClass {
 							e.printStackTrace();
 						}
 						switch (id) {
-							case "MIRROR_BOX" :
+							case "MIRROR_BOX":
 								((MirrorBoxObject) gameScene.objects.get(
 										gameScene.objects.size() - 1)).direction = ((MirrorBoxObject) this).direction;
 								break;
 						}
 						break;
-					default :
+					default:
 						break;
 				}
 				applet.keyPressEvent = false;
@@ -160,7 +162,7 @@ public abstract class EditableObject extends PClass {
 	public void unFocus() {
 		focus = false;
 	}
-	
+
 	public boolean isFocused() {
 		return focus;
 	}

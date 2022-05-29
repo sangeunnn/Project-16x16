@@ -30,6 +30,7 @@ import project_16x16.scene.GameplayScene;
 public class Enemy extends CollidableObject {
 
 	private PImage image;
+	private CollisionOccur collideoccur;
 
 	float gravity;
 
@@ -42,7 +43,9 @@ public class Enemy extends CollidableObject {
 
 	public int health;
 
-	EnemyState enemyState;
+
+	State enemyState;
+
 
 	/**
 	 * Constructor
@@ -58,7 +61,7 @@ public class Enemy extends CollidableObject {
 		speedJump = 18;
 		width = 14 * 4;
 		height = 10 * 4;
-		enemyState = new EnemyState();
+		enemyState = new State();
 	}
 
 	/**
@@ -111,11 +114,8 @@ public class Enemy extends CollidableObject {
 		}
 	}
 
-	public PVector getVelocity() {
-		return velocity.copy();
-	}
 
-	public EnemyState getState() {
+	public State getState() {
 		return enemyState;
 	}
 
@@ -146,7 +146,7 @@ public class Enemy extends CollidableObject {
 						applet.noFill();
 					}
 
-					if (collidesFuturX(collision)) {
+					if (collideoccur.collidesFuturX(pos, velocity, width, height, collision)) {
 						// enemy left of collision
 						if (pos.x < collision.pos.x) {
 							pos.x = collision.pos.x - collision.width / 2 - width / 2;
@@ -157,7 +157,7 @@ public class Enemy extends CollidableObject {
 						velocity.x = 0;
 						enemyState.dashing = false;
 					}
-					if (collidesFuturY(collision)) {
+					if (collideoccur.collidesFuturY(pos, velocity, width, height, collision)) {
 						// enemy above collision
 						if (pos.y < collision.pos.y) {
 							if (enemyState.flying) {
@@ -224,23 +224,7 @@ public class Enemy extends CollidableObject {
 		return setCollidePosition(collision);
 	}
 
-	public class EnemyState {
-		public boolean flying;
-		public boolean attacking;
-		public boolean dashing;
-		public int facingDir;
-		public boolean landing;
-		public boolean jumping;
 
-		EnemyState() {
-			flying = false;
-			attacking = false;
-			dashing = false;
-			facingDir = RIGHT;
-			jumping = false;
-			landing = false;
-		}
-	}
 
 	@Override
 	public void debug() {
