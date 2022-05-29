@@ -43,6 +43,7 @@ public class Enemy extends CollidableObject {
 
 	public int health;
 
+
 	State enemyState;
 
 
@@ -113,13 +114,21 @@ public class Enemy extends CollidableObject {
 		}
 	}
 
-	// public PVector getVelocity() {
-	// return velocity.copy();
-	// }
 
 	public State getState() {
-
 		return enemyState;
+	}
+
+	public void changePosition(CollidableObject collision, Boolean enemyState) {
+		pos.y = collision.pos.y - collision.height / 2 - height / 2;
+		enemyState = false;
+	}
+
+	public boolean setCollidePosition(CollidableObject collision) {
+		return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width / 2
+				&& pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
+				&& (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
+						&& pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
 	}
 
 	private void checkEnemyCollision() {
@@ -154,12 +163,13 @@ public class Enemy extends CollidableObject {
 							if (enemyState.flying) {
 								enemyState.landing = true;
 							}
-							pos.y = collision.pos.y - collision.height / 2 - height / 2;
-							enemyState.flying = false;
+							// same code is here
+							changePosition(collision, enemyState.flying);
 							// enemy below collision
 						} else {
-							pos.y = collision.pos.y + collision.height / 2 + height / 2;
-							enemyState.jumping = false;
+							// pos.y = collision.pos.y + collision.height / 2 + height / 2;
+							// enemyState.jumping = false;
+							changePosition(collision, enemyState.jumping);
 						}
 						velocity.y = 0;
 					}
@@ -168,68 +178,52 @@ public class Enemy extends CollidableObject {
 		}
 	}
 
-	// /**
-	// *
-	// * Determines is the character has collided with an object of type Collision.
-	// *
-	// * @param collision The other object
-	// * @return boolean if it has or has not collided with the object.
-	// */
-	// private boolean collides(CollidableObject collision) {
-	// return (pos.x + width / 2 > collision.pos.x - collision.width / 2
-	// && pos.x - width / 2 < collision.pos.x + collision.width / 2)
-	// && (pos.y + height / 2 > collision.pos.y - collision.height / 2
-	// && pos.y - height / 2 < collision.pos.y + collision.height / 2);
-	// }
+	/**
+	 * 
+	 * Determines is the character has collided with an object of type Collision.
+	 * 
+	 * @param collision The other object
+	 * @return boolean if it has or has not collided with the object.
+	 */
+	private boolean collides(CollidableObject collision) {
+		return setCollidePosition(collision);
+	}
 
-	// // TODO: optimize these (unused)
-	// private boolean collidesEqual(CollidableObject collision) {
-	// return (pos.x + width / 2 >= collision.pos.x - collision.width / 2
-	// && pos.x - width / 2 <= collision.pos.x + collision.width / 2)
-	// && (pos.y + height / 2 >= collision.pos.y - collision.height / 2
-	// && pos.y - height / 2 <= collision.pos.y + collision.height / 2);
-	// }
+	// TODO: optimize these (unused)
+	private boolean collidesEqual(CollidableObject collision) {
+		// return (pos.x + width / 2 >= collision.pos.x - collision.width / 2
+		// && pos.x - width / 2 <= collision.pos.x + collision.width / 2)
+		// && (pos.y + height / 2 >= collision.pos.y - collision.height / 2
+		// && pos.y - height / 2 <= collision.pos.y + collision.height / 2);
+		return setCollidePosition(collision);
+	}
 
-	// private boolean collidesFutur(CollidableObject collision) {
-	// return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width /
-	// 2
-	// && pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
-	// && (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
-	// && pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
-	// }
+	private boolean collidesFutur(CollidableObject collision) {
+		// return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width /
+		// 2
+		// && pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
+		// && (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
+		// && pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
+		return setCollidePosition(collision);
+	}
 
-	// private boolean collidesFuturX(CollidableObject collision) {
-	// return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width /
-	// 2
-	// && pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
-	// && (pos.y + 0 + height / 2 > collision.pos.y - collision.height / 2
-	// && pos.y + 0 - height / 2 < collision.pos.y + collision.height / 2);
-	// }
+	private boolean collidesFuturX(CollidableObject collision) {
+		// return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width /
+		// 2
+		// && pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
+		// && (pos.y + 0 + height / 2 > collision.pos.y - collision.height / 2
+		// && pos.y + 0 - height / 2 < collision.pos.y + collision.height / 2);
+		return setCollidePosition(collision);
+	}
 
-	// private boolean collidesFuturY(CollidableObject collision) {
-	// return (pos.x + 0 + width / 2 > collision.pos.x - collision.width / 2
-	// && pos.x + 0 - width / 2 < collision.pos.x + collision.width / 2)
-	// && (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
-	// && pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
-	// }
+	private boolean collidesFuturY(CollidableObject collision) {
+		// return (pos.x + 0 + width / 2 > collision.pos.x - collision.width / 2
+		// && pos.x + 0 - width / 2 < collision.pos.x + collision.width / 2)
+		// && (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
+		// && pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
+		return setCollidePosition(collision);
+	}
 
-	// public class EnemyState {
-	// public boolean flying;
-	// public boolean attacking;
-	// public boolean dashing;
-	// public int facingDir;
-	// public boolean landing;
-	// public boolean jumping;
-
-	// EnemyState() {
-	// flying = false;
-	// attacking = false;
-	// dashing = false;
-	// facingDir = RIGHT;
-	// jumping = false;
-	// landing = false;
-	// }
-	// }
 
 
 	@Override
