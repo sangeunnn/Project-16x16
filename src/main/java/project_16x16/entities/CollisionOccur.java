@@ -4,21 +4,50 @@ import processing.core.PVector;
 import project_16x16.objects.CollidableObject;
 
 public class CollisionOccur {
-        public boolean collides(PVector pos, int width, int height, CollidableObject collision) {
+        private PVector pos;
+        private PVector velocity;
+        private int width;
+        private int height;
+        private CollidableObject collision;
+
+        CollisionOccur() {
+        }
+
+        public void setPos(PVector pos_) {
+                pos = pos_;
+        }
+
+        public void setVelocity(PVector velocity_) {
+                velocity = velocity_;
+        }
+
+        public void setWidth(int width_) {
+                width = width_;
+        }
+
+        public void setHeight(int height_) {
+                height = height_;
+        }
+
+        public void setCollidableObj(CollidableObject collidobj_) {
+                collision = collidobj_;
+        }
+
+        public boolean collides() {
                 return (pos.x + width / 2 > collision.pos.x - collision.width / 2
                                 && pos.x - width / 2 < collision.pos.x + collision.width / 2)
                                 && (pos.y + height / 2 > collision.pos.y - collision.height / 2
                                                 && pos.y - height / 2 < collision.pos.y + collision.height / 2);
         }
 
-        public boolean collidesEqual(PVector pos, int width, int height, CollidableObject collision) {
+        public boolean collidesEqual() {
                 return (pos.x + width / 2 >= collision.pos.x - collision.width / 2
                                 && pos.x - width / 2 <= collision.pos.x + collision.width / 2)
                                 && (pos.y + height / 2 >= collision.pos.y - collision.height / 2
                                                 && pos.y - height / 2 <= collision.pos.y + collision.height / 2);
         }
 
-        public boolean collidesFutur(PVector pos, PVector velocity, int width, int height, CollidableObject collision) {
+        public boolean collidesFutur() {
                 return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width / 2
                                 && pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
                                 && (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
@@ -26,21 +55,37 @@ public class CollisionOccur {
                                                                 + collision.height / 2);
         }
 
-        public boolean collidesFuturX(PVector pos, PVector velocity, int width, int height,
-                        CollidableObject collision) {
+        public boolean collidesFuturX() {
                 return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width / 2
                                 && pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
                                 && (pos.y + 0 + height / 2 > collision.pos.y - collision.height / 2
                                                 && pos.y + 0 - height / 2 < collision.pos.y + collision.height / 2);
         }
 
-        public boolean collidesFuturY(PVector pos, PVector velocity, int width, int height,
-                        CollidableObject collision) {
+        public boolean collidesFuturY() {
                 return (pos.x + 0 + width / 2 > collision.pos.x - collision.width / 2
                                 && pos.x + 0 - width / 2 < collision.pos.x + collision.width / 2)
                                 && (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
                                                 && pos.y + velocity.y - height / 2 < collision.pos.y
                                                                 + collision.height / 2);
+        }
+
+        public boolean checkCollides(String input) {
+                switch (input) {
+                        case "default":
+                                return collides();
+                        case "equal":
+                                return collidesEqual();
+                        case "futur":
+                                return collidesFutur();
+                        case "futurX":
+                                return collidesFuturX();
+                        case "futurY":
+                                return collidesFuturY();
+                        default:
+                                return collides();
+                }
+
         }
 
 }

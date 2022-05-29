@@ -113,6 +113,11 @@ public final class Player extends EditableObject {
 
 		setAnimation(ACTION.IDLE);
 		this.isMultiplayerPlayer = isMultiplayerPlayer;
+		collideoccur.setPos(pos);
+		collideoccur.setWidth(width);
+		collideoccur.setHeight(width);
+		collideoccur.setVelocity(velocity);
+
 	}
 
 	/**
@@ -266,8 +271,8 @@ public final class Player extends EditableObject {
 						applet.ellipse(collision.pos.x, collision.pos.y, 5, 5);
 						applet.noFill();
 					}
-
-					if (collideoccur.collidesFuturX(pos, velocity, width, height, collision)) {
+					collideoccur.setCollidableObj(collision);
+					if (collideoccur.checkCollides("futurX")) {
 						// player left of collision
 						if (pos.x < collision.pos.x) {
 							pos.x = collision.pos.x - collision.width / 2 - width / 2;
@@ -278,7 +283,7 @@ public final class Player extends EditableObject {
 						velocity.x = 0;
 						state.dashing = false;
 					}
-					if (collideoccur.collidesFuturY(pos, velocity, width, height, collision)) {
+					if (collideoccur.checkCollides("futurY")) {
 						// player above collision
 						if (pos.y < collision.pos.y) {
 							if (state.flying) {
@@ -346,51 +351,6 @@ public final class Player extends EditableObject {
 			setAnimation(ACTION.IDLE);
 		}
 	}
-
-	// /**
-	// *
-	// * Determines is the character has collided with an object of type Collision.
-	// *
-	// * @param collision The other object
-	// * @return boolean if it has or has not collided with the object.
-	// */
-	// private boolean collides(CollidableObject collision) {
-	// return (pos.x + width / 2 > collision.pos.x - collision.width / 2
-	// && pos.x - width / 2 < collision.pos.x + collision.width / 2)
-	// && (pos.y + height / 2 > collision.pos.y - collision.height / 2
-	// && pos.y - height / 2 < collision.pos.y + collision.height / 2);
-	// }
-
-	// // TODO: optimize these (unused)
-	// private boolean collidesEqual(CollidableObject collision) {
-	// return (pos.x + width / 2 >= collision.pos.x - collision.width / 2
-	// && pos.x - width / 2 <= collision.pos.x + collision.width / 2)
-	// && (pos.y + height / 2 >= collision.pos.y - collision.height / 2
-	// && pos.y - height / 2 <= collision.pos.y + collision.height / 2);
-	// }
-
-	// private boolean collidesFutur(CollidableObject collision) {
-	// return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width /
-	// 2
-	// && pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
-	// && (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
-	// && pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
-	// }
-
-	// private boolean collidesFuturX(CollidableObject collision) {
-	// return (pos.x + velocity.x + width / 2 > collision.pos.x - collision.width /
-	// 2
-	// && pos.x + velocity.x - width / 2 < collision.pos.x + collision.width / 2)
-	// && (pos.y + 0 + height / 2 > collision.pos.y - collision.height / 2
-	// && pos.y + 0 - height / 2 < collision.pos.y + collision.height / 2);
-	// }
-
-	// private boolean collidesFuturY(CollidableObject collision) {
-	// return (pos.x + 0 + width / 2 > collision.pos.x - collision.width / 2
-	// && pos.x + 0 - width / 2 < collision.pos.x + collision.width / 2)
-	// && (pos.y + velocity.y + height / 2 > collision.pos.y - collision.height / 2
-	// && pos.y + velocity.y - height / 2 < collision.pos.y + collision.height / 2);
-	// }
 
 	public void setAnimation(String anim) {
 		animation.ended = false;

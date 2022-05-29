@@ -102,7 +102,7 @@ public final class Utility {
 	/**
 	 * Rotates a PImage object by a given angle in radians.
 	 *
-	 * @param img PImage image to rotate.
+	 * @param img   PImage image to rotate.
 	 * @param angle Angle in radians.
 	 * @return new PImage object transformed.
 	 */
@@ -134,15 +134,17 @@ public final class Utility {
 	public static float smoothMove(float pos, float target, float speed) {
 		return pos + (target - pos) * speed;
 	}
-	
+
 	/**
 	 * Converts (R,G,B) values to integer representation,
 	 * compatible with Processing.
+	 * 
 	 * @param R Red Value [0-255].
 	 * @param G Green Value [0-255].
 	 * @param B Blue Value [0-255].
 	 * @return Color int.
-	 * @see {@link #colorToRGB(int, int, int, float) colorToRGB(int R, int G, int B, float A)}
+	 * @see {@link #colorToRGB(int, int, int, float) colorToRGB(int R, int G, int B,
+	 *      float A)}
 	 */
 	public static int colorToRGB(int R, int G, int B) {
 		int out = 255 << 24; // full transparency
@@ -155,6 +157,7 @@ public final class Utility {
 	/**
 	 * Converts (R,G,B,A) values to integer representation,
 	 * compatible with Processing.
+	 * 
 	 * @param R Red Value [0-255].
 	 * @param G Green Value [0-255].
 	 * @param B Blue Value [0-255].
@@ -196,12 +199,13 @@ public final class Utility {
 		return (applet.getMouseCoordGame().x > x - w / 2 && applet.getMouseCoordGame().x < x + w / 2
 				&& applet.getMouseCoordGame().y > y - h / 2 && applet.getMouseCoordGame().y < y + h / 2);
 	}
-	
+
 	/**
 	 * Determine if a point is within a rectangular region -- PVector params.
+	 * 
 	 * @param point PVector position to test.
-	 * @param UL Corner one of region.
-	 * @param BR Corner two of region (different X & Y).
+	 * @param UL    Corner one of region.
+	 * @param BR    Corner two of region (different X & Y).
 	 * @return True if point contained in region.
 	 */
 	public static boolean withinRegion(PVector point, PVector UL, PVector BR) {
@@ -210,15 +214,16 @@ public final class Utility {
 				|| (point.x <= UL.x && point.x >= BR.x) && (point.y >= UL.y && point.y <= BR.y) // SW
 				|| (point.x <= BR.x && point.x >= UL.x) && (point.y >= BR.y && point.y <= UL.y); // NE
 	}
-		
+
 	/**
 	 * Determine if a point is within a rectangular region -- Float params.
+	 * 
 	 * @param pointX X coord of point position to test.
 	 * @param pointY X coord of point position to test.
-	 * @param ULX X coord of corner #1 (upper left) of region.
-	 * @param ULY Y coord of corner #1 (upper left) of region.
-	 * @param BRX X coord of corner #2 (bottom right) of region.
-	 * @param BRY Y coord of corner #2 (bottom right) of region.
+	 * @param ULX    X coord of corner #1 (upper left) of region.
+	 * @param ULY    Y coord of corner #1 (upper left) of region.
+	 * @param BRX    X coord of corner #2 (bottom right) of region.
+	 * @param BRY    Y coord of corner #2 (bottom right) of region.
 	 * @return True if point contained in region.
 	 */
 	public static boolean withinRegion(float pointX, float pointY, float ULX, float ULY, float BRX, float BRY) {
@@ -354,29 +359,29 @@ public final class Utility {
 		main.setString("creator", "undefined");
 		main.setString("version", "alpha 1.0.0");
 		levelSave.append(main);
-		
-		
+
 		JSONObject JSONtileData = applet.loadJSONObject(filePath);
 		JSONArray JSONlayers = JSONtileData.getJSONArray("layers");
-		
-		for(int i = 0; i < JSONlayers.size(); i++) {
+
+		for (int i = 0; i < JSONlayers.size(); i++) {
 			JSONObject layer = JSONlayers.getJSONObject(i);
 			int width = layer.getInt("width");
 			int height = layer.getInt("height");
 			JSONArray data = layer.getJSONArray("data");
-			for(int j = 0; j < data.size(); j++) {
+			for (int j = 0; j < data.size(); j++) {
 				int tileId = data.getInt(j) - 1;
 				if (tileId >= 0) {
 					Tile tile = Tileset.getTileObject(tileId);
 					JSONObject JSONtile = new JSONObject();
 					JSONtile.setString("id", tile.getName());
 					JSONtile.setString("type", tile.getTileType().toString());
-					JSONtile.setInt("x", (j % width) * 60 - (width/2*60));
-					JSONtile.setInt("y", (int) (j / width) * 60 - (height/2*60));
+					JSONtile.setInt("x", (j % width) * 60 - (width / 2 * 60));
+					JSONtile.setInt("y", (int) (j / width) * 60 - (height / 2 * 60));
 					levelSave.append(JSONtile);
 				}
 			}
-			Utility.saveFile("src/main/resources/Storage/Game/Maps/save/" + mapName + ".dat", Utility.encrypt(levelSave.toString()));
+			Utility.saveFile("src/main/resources/Storage/Game/Maps/save/" + mapName + ".dat",
+					Utility.encrypt(levelSave.toString()));
 		}
 	}
 }
