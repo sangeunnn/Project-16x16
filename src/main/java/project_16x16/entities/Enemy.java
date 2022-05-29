@@ -36,14 +36,12 @@ public class Enemy extends CollidableObject {
 	final PVector velocity = new PVector(0, 0);
 
 	private static final int collisionRange = 145;
-	
+
 	final int speedWalk;
 	private final int speedJump;
 
 	public int health;
-	
-	
-	
+
 	EnemyState enemyState;
 
 	/**
@@ -52,7 +50,7 @@ public class Enemy extends CollidableObject {
 	 * @param a SideScroller game controller.
 	 */
 	public Enemy(SideScroller a, GameplayScene g) {
-		super(a,g);
+		super(a, g);
 		gravity = 1;
 		image = Tileset.getTile(0, 258, 14, 14, 4);
 		health = 2;
@@ -62,7 +60,7 @@ public class Enemy extends CollidableObject {
 		height = 10 * 4;
 		enemyState = new EnemyState();
 	}
-	
+
 	/**
 	 * The display method controls how to display the character to the screen with
 	 * what animation.
@@ -89,7 +87,7 @@ public class Enemy extends CollidableObject {
 	 * The update method handles updating the character.
 	 */
 	public void update() {
-		//velocity.set(0, velocity.y + gravity);
+		// velocity.set(0, velocity.y + gravity);
 
 		checkEnemyCollision();
 		if (velocity.y != 0) {
@@ -97,18 +95,14 @@ public class Enemy extends CollidableObject {
 		}
 		pos.add(velocity);
 
-		
-		
 		if (pos.y > 2000) { // out of bounds check
-			//Destroy(gameObject);
+			// Destroy(gameObject);
 		}
-		
-		
+
 		if (applet.isKeyDown(KeyEvent.VK_9)) {
-						
+
 		}
-		
-		
+
 		if (applet.debug == debugType.ALL) {
 			applet.noFill();
 			applet.stroke(255, 0, 0);
@@ -120,14 +114,15 @@ public class Enemy extends CollidableObject {
 	public PVector getVelocity() {
 		return velocity.copy();
 	}
-	
+
 	public EnemyState getState() {
 		return enemyState;
 	}
 
 	private void checkEnemyCollision() {
 		for (EditableObject o : gameScene.objects) {
-			if(o.equals(this)) continue;
+			if (o.equals(this))
+				continue;
 			if (o instanceof CollidableObject) {
 				CollidableObject collision = (CollidableObject) o;
 				if (Utility.fastInRange(pos, collision.pos, collisionRange)) { // In Player Range
@@ -230,7 +225,7 @@ public class Enemy extends CollidableObject {
 			landing = false;
 		}
 	}
-	
+
 	@Override
 	public void debug() {
 		// TODO Auto-generated method stub
