@@ -195,9 +195,9 @@ public final class Player extends EditableObject {
 		}
 	}
 
-	public PVector getVelocity() {
-		return velocity.copy();
-	}
+	// public PVector getVelocity() {
+	// return new PVector();
+	// }
 
 	public State getState() {
 

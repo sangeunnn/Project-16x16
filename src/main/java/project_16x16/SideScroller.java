@@ -64,7 +64,7 @@ public class SideScroller extends PApplet {
 	// Font Resources
 	private static PFont font_pixel;
 
-	// Scenes	
+	// Scenes
 	private ArrayDeque<GameScenes> sceneHistory;
 	private int sceneSwapTime = 0;
 
@@ -94,9 +94,9 @@ public class SideScroller extends PApplet {
 
 	// Events
 	private HashSet<Integer> keysDown;
-	public boolean keyPressEvent; //     TODO remove -- override keyPressed() instead
-	public boolean keyReleaseEvent; //   TODO remove -- override mouseReleased() instead
-	public boolean mousePressEvent; //   TODO remove -- override mousePressed() instead
+	public boolean keyPressEvent; // TODO remove -- override keyPressed() instead
+	public boolean keyReleaseEvent; // TODO remove -- override mouseReleased() instead
+	public boolean mousePressEvent; // TODO remove -- override mousePressed() instead
 	public boolean mouseReleaseEvent; // TODO remove -- override mouseReleased() instead
 
 	// Camera Variables
@@ -175,7 +175,7 @@ public class SideScroller extends PApplet {
 
 		// Set frame rate limit
 		frameRate(Options.targetFrameRate);
-		
+
 		// Setup modes
 		imageMode(CENTER);
 		rectMode(CENTER);
@@ -335,42 +335,42 @@ public class SideScroller extends PApplet {
 		keyReleaseEvent = true;
 
 		switch (event.getKeyCode()) {
-			case Options.frameRateHigh :
+			case Options.frameRateHigh:
 				frameRate(5000);
 				break;
-			case Options.frameRateLow :
+			case Options.frameRateLow:
 				frameRate(20);
 				break;
-			case Options.frameRateDefault :
+			case Options.frameRateDefault:
 				frameRate(Options.frameRateDefault);
 				break;
-			case Options.toggleDeadzone :
+			case Options.toggleDeadzone:
 				camera.toggleDeadZone();
 				break;
-			case Options.cameraToMouse :
+			case Options.cameraToMouse:
 				camera.setCameraPosition(camera.getMouseCoord());
 				break;
-			case Options.cameraToPlayer :
+			case Options.cameraToPlayer:
 				camera.setFollowObject(game.getPlayer());
 				camera.setZoomScale(1.0f);
 				break;
-			case Options.shake :
+			case Options.shake:
 				camera.shake(0.4f);
 				break;
-			case Options.notify :
+			case Options.notify:
 				Notifications.addNotification("Hello", "World");
 				break;
-			case Options.fullscreen :
+			case Options.fullscreen:
 				noLoop();
 				stage.setFullScreen(!stage.isFullScreen());
 				scaleResolution();
 				loop();
 				break;
-			case Options.toggleDebug :
+			case Options.toggleDebug:
 				debug = debug.next();
 				Options.save(Option.debugMode, debug.ordinal());
 				break;
-			default :
+			default:
 				break;
 		}
 	}
@@ -397,7 +397,7 @@ public class SideScroller extends PApplet {
 	@Override
 	public void mouseWheel(MouseEvent event) {
 		game.mouseWheel(event);
-		if(game.isZoomable()) {
+		if (game.isZoomable()) {
 			if (event.getCount() == -1) { // for development
 				camera.zoomIn(0.02f);
 			} else {
@@ -450,7 +450,7 @@ public class SideScroller extends PApplet {
 		gameResolution = windowSize.copy();
 		stage.setWidth(width); // sceneWidth is not bound, so doesn't change
 		stage.setHeight(height);
-//		stage.setScene(new Scene(new StackPane(canvas), width, height)); // TODO
+		// stage.setScene(new Scene(new StackPane(canvas), width, height)); // TODO
 	}
 
 	public void resizeGameResolution(int width, int height) {
@@ -484,7 +484,8 @@ public class SideScroller extends PApplet {
 		final int labelPadding = 225; // label -x offset (from screen width)
 		final int ip = 1; // infoPadding -xoffset (from screen width)
 		final Player player = game.getPlayer();
-		PVector velocity = player.getVelocity();
+		// PVector velocity = player.getVelocity();
+		PVector velocity = new PVector();
 		fill(0, 50);
 		noStroke();
 		rectMode(CORNER);
@@ -492,7 +493,7 @@ public class SideScroller extends PApplet {
 		textSize(18);
 
 		textAlign(LEFT, TOP);
-		
+
 		fill(255, 0, 0);
 		text("Player Pos:", width - labelPadding, lineOffset * 0 + yOffset);
 		text("Player Speed:", width - labelPadding, lineOffset * 1 + yOffset);
@@ -504,7 +505,7 @@ public class SideScroller extends PApplet {
 		text("World Mouse:", width - labelPadding, lineOffset * 7 + yOffset);
 		text("Projectiles:", width - labelPadding, lineOffset * 8 + yOffset);
 		text("Framerate:", width - labelPadding, lineOffset * 9 + yOffset);
-		
+
 		fill(55, 155, 255);
 		text("Framerate HIGH:", width - labelPadding, lineOffset * 12 + yOffset);
 		text("Framerate LOW:", width - labelPadding, lineOffset * 13 + yOffset);
@@ -520,7 +521,7 @@ public class SideScroller extends PApplet {
 		text("Fullscreen:", width - labelPadding, lineOffset * 23 + yOffset);
 		text("Toggle Debug:", width - labelPadding, lineOffset * 24 + yOffset);
 
-		fill(255,255,0);
+		fill(255, 255, 0);
 		textAlign(RIGHT, TOP);
 		text("[" + round(player.pos.x) + ", " + round(player.pos.y) + "]", width - ip, lineOffset * 0 + yOffset);
 		text("[" + round(velocity.x) + ", " + round(velocity.y) + "]", width - ip, lineOffset * 1 + yOffset);
@@ -534,7 +535,7 @@ public class SideScroller extends PApplet {
 		text("[" + round(camera.getMouseCoord().x) + ", " + round(camera.getMouseCoord().y) + "]", width - ip,
 				lineOffset * 7 + yOffset);
 		text("[" + "?" + "]", width - ip, lineOffset * 8 + yOffset); // TODO expose
-		
+
 		text("['" + (char) Options.frameRateHigh + "']", width - ip, lineOffset * 12 + yOffset);
 		text("['" + (char) Options.frameRateLow + "']", width - ip, lineOffset * 13 + yOffset);
 		text("['" + (char) Options.toggleDeadzone + "']", width - ip, lineOffset * 14 + yOffset);
@@ -551,8 +552,7 @@ public class SideScroller extends PApplet {
 
 		if (frameRate >= 59.5) {
 			fill(0, 255, 0);
-		}
-		else {
+		} else {
 			fill(255, 0, 0);
 		}
 		text("[" + round(frameRate) + "]", width - ip, lineOffset * 9 + yOffset);
@@ -593,7 +593,7 @@ public class SideScroller extends PApplet {
 
 	@Override
 	public void exit() {
-//		super.exit(); // commented-out - prevents ESC from closing game
+		// super.exit(); // commented-out - prevents ESC from closing game
 	}
 
 	// Main
