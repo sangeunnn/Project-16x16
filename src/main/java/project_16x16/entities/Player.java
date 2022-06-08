@@ -271,8 +271,10 @@ public final class Player extends EditableObject {
 						applet.ellipse(collision.pos.x, collision.pos.y, 5, 5);
 						applet.noFill();
 					}
+
 					collideoccur.setCollidableObj(collision);
 					if (collideoccur.checkCollides("futurX")) {
+
 						// player left of collision
 						if (pos.x < collision.pos.x) {
 							pos.x = collision.pos.x - collision.width / 2 - width / 2;
@@ -283,7 +285,9 @@ public final class Player extends EditableObject {
 						velocity.x = 0;
 						state.dashing = false;
 					}
+
 					if (collideoccur.checkCollides("futurY")) {
+
 						// player above collision
 						if (pos.y < collision.pos.y) {
 							if (state.flying) {
