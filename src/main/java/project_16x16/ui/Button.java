@@ -3,6 +3,7 @@ package project_16x16.ui;
 import project_16x16.PClass;
 import project_16x16.SideScroller;
 import project_16x16.Utility;
+import project_16x16.scene.InitButtonStrategy;
 
 /**
  * The Press Class extends PClass A button for the player to click
@@ -28,7 +29,7 @@ public class Button extends PClass {
 	private boolean blocked;
 
 	private int colorValues[];
-
+	private InitButtonStrategy initButtonStrategy;
 	/**
 	 * Constructor for Press
 	 * 
@@ -55,6 +56,14 @@ public class Button extends PClass {
 	 * Remove duplicate code
 	 * call manDisplay -> intW(),intH()
 	**/
+	public void setbuttontinit() {
+		initButtonStrategy.setinit();
+	}
+	public void setInitStategy(InitButtonStrategy initButtonStrategy) {
+		this.initButtonStrategy = initButtonStrategy;
+	}
+	
+	
 	public void display() {
 		manDisplay();
 		intW();

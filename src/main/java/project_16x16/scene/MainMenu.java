@@ -37,37 +37,63 @@ public final class MainMenu extends PScene {
 	public MainMenu(SideScroller a) {
 		super(a);
 		game = a;
-
 		background = game.createGraphics((int) game.gameResolution.x, (int) game.gameResolution.x);
 		background.noSmooth();
 		Particles.assignApplet(a);
 		Particles.populate(1000);
 
-		pressStart = new Button(a);
-		
 		pressMultiplayer = new Button(a);
 		pressQuit = new Button(a);
 		pressSettings = new Button(a);
+		pressStart = new Button(a);
+		
+		pressStartInit();
+		pressMultiplayerInit();
+		pressSettingsInit();
+		pressQuitInit();
 
-		pressStart.setText("Start Game");
-		pressStart.setPosition(applet.width / 2, applet.height / 2 - 240);
-		pressStart.setSize(300, 100);
-		pressStart.setTextSize(40);
+		//pressStart.setText("Start Game");
+		//pressStart.setPosition(applet.width / 2, applet.height / 2 - 240);
+		//pressStart.setSize(300, 100);
+		//pressStart.setTextSize(40);
+		
+		
+		//pressMultiplayer.setText("Multiplayer");
+		//pressMultiplayer.setPosition(applet.width / 2, applet.height / 2 - 80);
+		//pressMultiplayer.setSize(300, 100);
+		//pressMultiplayer.setTextSize(40);
+		
+		
+		//pressSettings.setText("Settings");
+		//pressSettings.setPosition(applet.width / 2, applet.height / 2 + 80);
+		//pressSettings.setSize(300, 100);
+		//pressSettings.setTextSize(40);
+		
 
-		pressMultiplayer.setText("Multiplayer");
-		pressMultiplayer.setPosition(applet.width / 2, applet.height / 2 - 80);
-		pressMultiplayer.setSize(300, 100);
-		pressMultiplayer.setTextSize(40);
+		//pressQuit.setText("Quit Game");
+		//pressQuit.setPosition(applet.width / 2, applet.height / 2 + 240);
+		//pressQuit.setSize(300, 100);
+		//pressQuit.setTextSize(40);
+	}
 
-		pressSettings.setText("Settings");
-		pressSettings.setPosition(applet.width / 2, applet.height / 2 + 80);
-		pressSettings.setSize(300, 100);
-		pressSettings.setTextSize(40);
+	private void pressQuitInit() {
+		pressQuit.setInitStategy(new PressQuitinit());
+		pressSettings.setbuttontinit();
+	}
 
-		pressQuit.setText("Quit Game");
-		pressQuit.setPosition(applet.width / 2, applet.height / 2 + 240);
-		pressQuit.setSize(300, 100);
-		pressQuit.setTextSize(40);
+	private void pressSettingsInit() {
+		pressSettings.setInitStategy(new PressSettinginit());
+		pressSettings.setbuttontinit();
+	}
+
+	private void pressStartInit() {
+		pressStart.setInitStategy(new PressStartinit());
+		pressStart.setbuttontinit();
+	}
+
+	private void pressMultiplayerInit() {
+		pressMultiplayer.setInitStategy(new PressMultiplayerinit());
+		pressMultiplayer.setbuttontinit();
 	}
 
 	@Override
