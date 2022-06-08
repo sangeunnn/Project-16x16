@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import project_16x16.PClass;
 import project_16x16.SideScroller;
 
-public class List extends PClass {
+public class List extends PClass implements Ui{
 	/**
 	 * SeonU
 	 * Refactoring

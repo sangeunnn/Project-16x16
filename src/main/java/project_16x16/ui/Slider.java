@@ -7,7 +7,7 @@ import project_16x16.SideScroller;
  * Horizontal slider.
  * Used for options.
  */
-public final class Slider extends Button {
+public final class Slider extends Button implements Ui{
 
 	private float value; // between 0 and 1
 	private float tmpValue;
