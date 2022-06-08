@@ -30,10 +30,10 @@ public class RotationEmission extends ParticleEmission {
 		super(position, velocity, acceleration, spread);
 		this.div = div;
 	}
-
-	public void generateNew() {
+	
+	public float determinePhi() {
 		phi += div;
-		newParameters(phi);
+		return phi;
 	}
 	
 	@Override

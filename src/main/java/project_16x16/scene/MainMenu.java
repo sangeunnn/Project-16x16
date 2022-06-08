@@ -37,36 +37,63 @@ public final class MainMenu extends PScene {
 	public MainMenu(SideScroller a) {
 		super(a);
 		game = a;
-
 		background = game.createGraphics((int) game.gameResolution.x, (int) game.gameResolution.x);
 		background.noSmooth();
 		Particles.assignApplet(a);
 		Particles.populate(1000);
 
-		pressStart = new Button(a);
 		pressMultiplayer = new Button(a);
 		pressQuit = new Button(a);
 		pressSettings = new Button(a);
+		pressStart = new Button(a);
+		
+		pressStartInit();
+		pressMultiplayerInit();
+		pressSettingsInit();
+		pressQuitInit();
 
-		pressStart.setText("Start Game");
-		pressStart.setPosition(applet.width / 2, applet.height / 2 - 240);
-		pressStart.setSize(300, 100);
-		pressStart.setTextSize(40);
+		//pressStart.setText("Start Game");
+		//pressStart.setPosition(applet.width / 2, applet.height / 2 - 240);
+		//pressStart.setSize(300, 100);
+		//pressStart.setTextSize(40);
+		
+		
+		//pressMultiplayer.setText("Multiplayer");
+		//pressMultiplayer.setPosition(applet.width / 2, applet.height / 2 - 80);
+		//pressMultiplayer.setSize(300, 100);
+		//pressMultiplayer.setTextSize(40);
+		
+		
+		//pressSettings.setText("Settings");
+		//pressSettings.setPosition(applet.width / 2, applet.height / 2 + 80);
+		//pressSettings.setSize(300, 100);
+		//pressSettings.setTextSize(40);
+		
 
-		pressMultiplayer.setText("Multiplayer");
-		pressMultiplayer.setPosition(applet.width / 2, applet.height / 2 - 80);
-		pressMultiplayer.setSize(300, 100);
-		pressMultiplayer.setTextSize(40);
+		//pressQuit.setText("Quit Game");
+		//pressQuit.setPosition(applet.width / 2, applet.height / 2 + 240);
+		//pressQuit.setSize(300, 100);
+		//pressQuit.setTextSize(40);
+	}
 
-		pressSettings.setText("Settings");
-		pressSettings.setPosition(applet.width / 2, applet.height / 2 + 80);
-		pressSettings.setSize(300, 100);
-		pressSettings.setTextSize(40);
+	private void pressQuitInit() {
+		pressQuit.setInitStategy(new PressQuitinit());
+		pressSettings.setbuttontinit();
+	}
 
-		pressQuit.setText("Quit Game");
-		pressQuit.setPosition(applet.width / 2, applet.height / 2 + 240);
-		pressQuit.setSize(300, 100);
-		pressQuit.setTextSize(40);
+	private void pressSettingsInit() {
+		pressSettings.setInitStategy(new PressSettinginit());
+		pressSettings.setbuttontinit();
+	}
+
+	private void pressStartInit() {
+		pressStart.setInitStategy(new PressStartinit());
+		pressStart.setbuttontinit();
+	}
+
+	private void pressMultiplayerInit() {
+		pressMultiplayer.setInitStategy(new PressMultiplayerinit());
+		pressMultiplayer.setbuttontinit();
 	}
 
 	@Override
@@ -167,7 +194,7 @@ public final class MainMenu extends PScene {
 		}
 
 		static void run() {
-
+//171라인 수정 ?
 			if (game.frameCount % TRANSITION_TIME == 0) {
 				function++;
 				function %= 12;
@@ -183,21 +210,27 @@ public final class MainMenu extends PScene {
 
 				x = getXPrint(p.x);
 				y = getYPrint(p.y);
-
-				if (game.frameCount - p.start > 1) {
+				// Replaced the if conditional statement with a single boolean variable.
+				boolean isframeCountPossible = game.frameCount - p.start > 1;
+				if (isframeCountPossible) {
 					game.stroke(p.color);
 					game.strokeWeight(p.size);
 					game.line(PApplet.lerp(x, p.lastX, 0.15f), PApplet.lerp(y, p.lastY, 0.15f), p.lastX, p.lastY);
 				}
 				p.lastX = x;
 				p.lastY = y;
-				if (!Utility.withinRegion(p.lastX, p.lastY, -100, -100, game.gameResolution.x + 100,
-						game.gameResolution.y + 100)) {
+				// Replaced the if conditional statement with extract method.
+				if (isInRegion(p)) {
 					iterator.remove();
 					repopulate++;
 				}
 			}
 			populate(repopulate);
+		}
+
+		private static boolean isInRegion(Particle p) {
+			return !Utility.withinRegion(p.lastX, p.lastY, -100, -100, game.gameResolution.x + 100,
+					game.gameResolution.y + 100);
 		}
 
 		private static double getSlopeX(float x, float y) {

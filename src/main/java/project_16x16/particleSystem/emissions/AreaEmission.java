@@ -22,11 +22,10 @@ public class AreaEmission extends ParticleEmission {
 		super(position, velocity, acceleration, spread);
 	}
 	
-	public void generateNew() {
+	public float determinePhi() {
 		float phi = (float) (2*Math.PI*Math.random());
-		newParameters(phi);
+		return phi;
 	}
-	
 
 	@Override
 	public ParticleEmission copy() {
