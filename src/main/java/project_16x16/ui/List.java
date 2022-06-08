@@ -4,18 +4,22 @@ import processing.core.PApplet;
 import project_16x16.PClass;
 import project_16x16.SideScroller;
 
-public class List extends PClass {
-
-	final int COVER_H = 30;
-	int x, y;
-	int w, h;
-	int scrollPass;
-	String getElement;
-	Button confirm;
-	Button cancel;
-	Button elements[];
-	ScrollBarVertical scrollBar;
-	int elementOffSet;
+public class List extends PClass implements Ui{
+	/**
+	 * SeonU
+	 * Refactoring
+	 * public to private
+	 */
+	private final int COVER_H = 30;
+	private int x, y;
+	private int w, h;
+	private int scrollPass;
+	private String getElement;
+	private Button confirm;
+	private Button cancel;
+	private Button elements[];
+	private ScrollBarVertical scrollBar;
+	private int elementOffSet;
 
 	public List(SideScroller a, String ar[], int elementOffset) {
 		super(a);
@@ -55,11 +59,14 @@ public class List extends PClass {
 		displayElements();
 		confirm.display();
 		cancel.display();
+		
 		setCover();
+		
 		applet.pushMatrix();
 		scrollBar.display();
 		scrollBar.update();
 		applet.popMatrix();
+		
 		scrollPass = (int) PApplet.map(scrollBar.barLocation, 1, 0, elements.length*30, 0);
 	}
 
@@ -89,11 +96,22 @@ public class List extends PClass {
 		}
 	}
 
+	/**
+	 * SEONU
+	 * Refactoring
+	 * extract variable
+	 */
 	public void displayElements() {
 		for (int i = 0; i < elements.length; i++) {
-			elements[i].setPosition((x - w / 2 ) + (elements[i].getW() / 2),
-					(y - h / 2 + 30) + (i * elementOffSet) - scrollPass);
-			if (inListBox(elements[i].getY() + elements[i].getH() / 2, elements[i].getY() - elements[i].getH() / 2))
+			int _x = (x - w / 2 ) + (elements[i].getW() / 2);
+			int _y = (subY2H() + 30) + (i * elementOffSet) - scrollPass;
+			
+			elements[i].setPosition(_x, _y);
+			
+			int elementPosY = elements[i].getY() + elements[i].getH() / 2;
+			int elementPosY2 = elements[i].getY() - elements[i].getH() / 2;
+			
+			if (inListBox(elementPosY, elementPosY2))
 				elements[i].display();
 		}
 	}
@@ -114,14 +132,26 @@ public class List extends PClass {
 	public void setCover() {
 		applet.fill(89, 89, 89);
 		applet.noStroke();
-		applet.rect(x, y + h / 2, w, COVER_H);// Hardcoded as height of buttons doesn't change only width
-		applet.rect(x, y - h / 2, w, COVER_H);
+		applet.rect(x, addY2H(), w, COVER_H);// Hardcoded as height of buttons doesn't change only width
+		applet.rect(x, subY2H(), w, COVER_H);
 	}
 
 	public boolean inListBox(int elementPosY, int elementPosY2) {
-		return elementPosY <= y + h / 2 && elementPosY2 >= y - h / 2;
+		return elementPosY <= addY2H() && elementPosY2 >= subY2H();
 	}
 
+	/**
+	 * SeonU
+	 * Refactorig
+	 * To replace duplicate Code
+	 */
+	private int subY2H() {
+		return y - h / 2;
+	}
+	private int addY2H() {
+		return y + h / 2;
+	}
+	
 	// Always use after the constructor
 	public void setPosition(int x, int y) {
 		this.x = x;

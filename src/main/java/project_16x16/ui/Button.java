@@ -3,26 +3,33 @@ package project_16x16.ui;
 import project_16x16.PClass;
 import project_16x16.SideScroller;
 import project_16x16.Utility;
+import project_16x16.scene.InitButtonStrategy;
 
 /**
  * The Press Class extends PClass A button for the player to click
  */
-public class Button extends PClass {
+public class Button extends PClass implements ButtonUi{
 
-	protected int width;
-	protected int height;
-	private String text;
-	protected int x;
-	protected int y;
+	/**
+	 * SeonU
+	 * Refactoring
+	 * public to private
+	**/
+	private int width;
+	private int height;
+	private int x;
+	private int y;
+	
+	private boolean focus;
+	private boolean press;
 	
 	private int textSize = 20;
+	private String text;
+	
+	private boolean blocked;
 
-	protected boolean focus;
-	protected boolean press;
-	public boolean blocked;
-
-	int colorValues[];
-
+	private int colorValues[];
+	private InitButtonStrategy initButtonStrategy;
 	/**
 	 * Constructor for Press
 	 * 
@@ -42,12 +49,23 @@ public class Button extends PClass {
 	/**
 	 * Determins what to display for the button
 	 */
+	
+	/**
+	 * SeonU
+	 * Refactoring
+	 * Remove duplicate code
+	 * call manDisplay -> intW(),intH()
+	**/
+	public void setbuttontinit() {
+		initButtonStrategy.setinit();
+	}
+	public void setInitStategy(InitButtonStrategy initButtonStrategy) {
+		this.initButtonStrategy = initButtonStrategy;
+	}
+	
+	
 	public void display() {
-		applet.strokeWeight(4);
-		displayColors();
-		applet.pushMatrix();
-		displayTextColors();
-		applet.popMatrix();
+		manDisplay();
 		intW();
 		intH();
 	}
@@ -57,7 +75,9 @@ public class Button extends PClass {
 	public void manDisplay() { 
 		applet.strokeWeight(4);
 		displayColors();
+		
 		applet.pushMatrix();
+		
 		displayTextColors();
 		applet.popMatrix();
 	}
@@ -72,6 +92,10 @@ public class Button extends PClass {
 	/**
 	 * Updates the button
 	 */
+	/**
+	 * SeonU
+	 * todo
+	**/
 	public void update() {
 		press = false;
 		if (applet.mousePressEvent) {
@@ -94,6 +118,12 @@ public class Button extends PClass {
 		}
 	}
 
+	/**
+	 * SEONU
+	 * todo
+	 * Refactoring OR Design Pattern
+	 * integrate display
+	 */
 	private void displayColors() {
 		if (hover()) {
 			applet.stroke(colorValues[2]);
@@ -181,6 +211,11 @@ public class Button extends PClass {
 		height = 30;
 	}
 
+	
+	/**
+	 *	getter setter 
+	 * 
+	 */
 	public void setPosition(int _x, int _y) {
 		x = _x;
 		y = _y;
@@ -213,4 +248,50 @@ public class Button extends PClass {
 	public boolean event() {
 		return press;
 	}
+
+	protected int getWidth() {
+		return width;
+	}
+
+	protected void setWidth(int width) {
+		this.width = width;
+	}
+
+	protected int getHeight() {
+		return height;
+	}
+
+	protected void setHeight(int height) {
+		this.height = height;
+	}
+
+	protected boolean isFocus() {
+		return focus;
+	}
+
+	protected void setFocus(boolean focus) {
+		this.focus = focus;
+	}
+
+	protected boolean isPress() {
+		return press;
+	}
+
+	protected void setPress(boolean press) {
+		this.press = press;
+	}
+
+	protected void setX(int x) {
+		this.x = x;
+	}
+
+	protected void setY(int y) {
+		this.y = y;
+	}
+
+	public boolean isBlocked() {
+		return blocked;
+	}
+	
+	
 }
