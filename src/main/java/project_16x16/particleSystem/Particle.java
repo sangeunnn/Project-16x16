@@ -17,31 +17,34 @@ public class Particle {
 
 	private SideScroller applet;
 	
-	public PImage image;
-	public PVector position;
-	public PVector velocity;
-	public PVector acceleration;
+	private PImage image;
+	private PVector position;
+	private PVector velocity;
+	private PVector acceleration;
 	
-	public float size = 40; //TODO: create better way to control
-	public boolean useCustomeSize = false;
+	private float size = 40; //TODO: create better way to control
+	private boolean useCustomeSize = false;
 	
-	public float maxLifespan; // lifespan of particle when it was spawned
-	public float lifespan;
-	public int frameCount;
+	private float maxLifespan; // lifespan of particle when it was spawned
+	private float lifespan;
+	private int frameCount;
+	private static final float deathLevel = (float) 0.0;
+	private static final float updateStep = (float) 1.0;
 	
 	public Particle (SideScroller applet, PImage image) {
 		this.applet = applet;
-		this.image = image;
-		frameCount = 0;
+		this.setImage(image);
+		setFrameCount(0);
 	}
 	
 	public void spawn(Consumer<Particle> consumer, float lifespan) {
 		consumer.accept(this);
 		setLifespan(lifespan);
+		setMaxLifespan(lifespan);
 	}
 	
 	public boolean isDead() {
-		return lifespan <= 0.0;
+		return getLifespan() <= deathLevel;
 	}
 	
 	public void run() {
@@ -52,26 +55,109 @@ public class Particle {
 	}
 	
 	private void update() {
-		velocity.add(acceleration);
-		position.add(velocity);
-		lifespan -= 1.0;
-		frameCount++;
+		updateVelocity(getAcceleration());
+		updatePosition(getVelocity());
+		decreaseLifespan(updateStep);
+		setFrameCount(getFrameCount() + 1);
 	}
 	
 	private void draw() {
 		
 		applet.pushMatrix();
-		applet.translate(position.x, position.y);
-		if (useCustomeSize)
-			applet.scale(size, size);
+		applet.translate(getPosition().x, getPosition().y);
+		if (isUseCustomeSize())
+			applet.scale(getSize(), getSize());
 		
-		applet.image(image, 0, 0);
+		applet.image(getImage(), 0, 0);
 		applet.noTint();
 		applet.popMatrix();
 	}
 	
-	private void setLifespan(float lifespan) {
-		maxLifespan = lifespan;
+	public void setLifespan(float lifespan) {
 		this.lifespan = lifespan;
+	}
+	
+	public void decreaseLifespan(float step) {
+		this.lifespan -= step;
+	}
+	
+	public float getLifespan() {
+		return lifespan;
+	}
+
+	public PVector getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(PVector velocity) {
+		this.velocity = velocity;
+	}
+
+	public void updateVelocity(PVector vector) {
+		this.velocity.add(vector);
+	}
+
+	public PVector getPosition() {
+		return position;
+	}
+
+	public void setPosition(PVector position) {
+		this.position = position;
+	}
+
+	public void updatePosition(PVector vector) {
+		this.position.add(vector);
+	}
+
+	public float getMaxLifespan() {
+		return maxLifespan;
+	}
+
+	public void setMaxLifespan(float maxLifespan) {
+		this.maxLifespan = maxLifespan;
+	}
+
+	public PVector getAcceleration() {
+		return acceleration;
+	}
+
+	public void setAcceleration(PVector acceleration) {
+		this.acceleration = acceleration;
+	}
+	
+	public void updateAcceleration(PVector vector) {
+		this.acceleration.add(vector);
+	}
+
+	public int getFrameCount() {
+		return frameCount;
+	}
+
+	public void setFrameCount(int frameCount) {
+		this.frameCount = frameCount;
+	}
+
+	public boolean isUseCustomeSize() {
+		return useCustomeSize;
+	}
+
+	public void setUseCustomeSize(boolean useCustomeSize) {
+		this.useCustomeSize = useCustomeSize;
+	}
+
+	public float getSize() {
+		return size;
+	}
+
+	public void setSize(float size) {
+		this.size = size;
+	}
+
+	public PImage getImage() {
+		return image;
+	}
+
+	public void setImage(PImage image) {
+		this.image = image;
 	}
 }

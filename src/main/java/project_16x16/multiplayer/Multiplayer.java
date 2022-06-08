@@ -11,15 +11,15 @@ public class Multiplayer {
 	/**
 	 * A client connects to a server and sends data back and forth.
 	 */
-	private Client c;
+	private Client client;
 	/**
 	 * A server sends and receives data to and from its associated clients (other
 	 * programs connected to it)
 	 */
-	private Server s;
+	private Server server;
 
-	JSONObject data;
-	public boolean isHost;
+	private JSONObject data;
+	private boolean isHost;
 
 	/**
 	 * Constructor for a connecting client
@@ -29,16 +29,16 @@ public class Multiplayer {
 	 * @param port
 	 */
 	public Multiplayer(SideScroller player, String hostIP, int port, boolean isHost) throws java.net.ConnectException {
-		this.isHost = isHost;
-		data = null;
+		this.setHost(isHost);
+		setData(null);
 		if (isHost) {
-			s = new Server(player, port);
-			if (!s.active()) {
+			setServer(new Server(player, port));
+			if (!getServer().active()) {
 				throw new java.net.ConnectException();
 			}
 		} else {
-			c = new Client(player, hostIP, port);
-			if (!c.active()) {
+			setClient(new Client(player, hostIP, port));
+			if (!getClient().active()) {
 				throw new java.net.ConnectException();
 			}
 		}
@@ -57,36 +57,68 @@ public class Multiplayer {
 
 	public JSONObject readData() {
 
-		if (isHost) {
-			c = s.available();
+		if (isHost()) {
+			setClient(getServer().available());
 		}
 
-		if (c != null && c.available() > 0) {
-			String packet = c.readString();
+		if (getClient() != null && getClient().available() > 0) {
+			String packet = getClient().readString();
 			try {
-				data = JSONObject.parse(packet);
+				setData(JSONObject.parse(packet));
 			} catch (java.lang.RuntimeException e) {
 			}
 		}
-		return data;
+		return getData();
 	}
 
 	public void writeData(String packet) {
-		if (isHost) {
-			s.write(packet); // write to client(s)
+		if (isHost()) {
+			getServer().write(packet); // write to client(s)
 		} else {
-			if (c.active()) {
-				c.write(packet); // write to server
+			if (getClient().active()) {
+				getClient().write(packet); // write to server
 			}
 		}
 	}
 
 	public void exit() {
-		if (c != null) {
-			c.stop();
+		if (getClient() != null) {
+			getClient().stop();
 		}
-		if (s != null) { // TODO message clients.
-			s.stop();
+		if (getServer() != null) { // TODO message clients.
+			getServer().stop();
 		}
+	}
+
+	public void setServer(Server server){
+		this.server = server;
+	}
+	
+	public Server getServer(){
+		return server;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	public Client getClient(){
+		return client;
+	}
+
+	public boolean isHost() {
+		return isHost;
+	}
+
+	public void setHost(boolean isHost) {
+		this.isHost = isHost;
+	}
+
+	public void setData(JSONObject data) {
+		this.data = data;
+	}
+
+	public JSONObject getData() {
+		return data;
 	}
 }

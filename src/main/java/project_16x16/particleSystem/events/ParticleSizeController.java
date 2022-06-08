@@ -19,23 +19,39 @@ public class ParticleSizeController implements ParticleEventListener {
 	 * @param endSize   particle end size
 	 */
 	public ParticleSizeController(float startSize, float endSize) {
-		this.startSize = startSize;
-		this.endSize = endSize;
+		this.setStartSize(startSize);
+		this.setEndSize(endSize);
 	}
 	
 	@Override
 	public void onParticleSpawnEvent(Particle p) {
-		p.useCustomeSize = true;
+		p.setUseCustomeSize(true);
 	};
 	
 	@Override
 	public void onParticleRunEvent(Particle p) {	
-		float size = p.lifespan/p.maxLifespan*(startSize-endSize)+endSize;
-		p.size = size;
+		float size = p.getLifespan()/p.getMaxLifespan()*(getStartSize()-getEndSize())+getEndSize();
+		p.setSize(size);
 	}
 	
 	@Override
 	public ParticleEventListener copy() {
-		return new ParticleSizeController(startSize, endSize);
+		return new ParticleSizeController(getStartSize(), getEndSize());
+	}
+
+	public float getStartSize() {
+		return startSize;
+	}
+
+	public void setStartSize(float startSize) {
+		this.startSize = startSize;
+	}
+
+	public float getEndSize() {
+		return endSize;
+	}
+
+	public void setEndSize(float endSize) {
+		this.endSize = endSize;
 	}
 }

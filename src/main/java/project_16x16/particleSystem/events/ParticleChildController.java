@@ -27,11 +27,11 @@ public class ParticleChildController implements ParticleEventListener {
 	 * @param delay how many frames till active
 	 */
 	public ParticleChildController(ParticleSystem particleSystem, int delay) {
-		this.delay = delay;
-		hasDelay = true;
-		spawnOnDeath = false;
-		copySystem = particleSystem;
-		particleSystems = new ArrayList<ParticleSystem>();
+		this.setDelay(delay);
+		setHasDelay(true);
+		setSpawnOnDeath(false);
+		setCopySystem(particleSystem);
+		setParticleSystems(new ArrayList<ParticleSystem>());
 	}
 	
 	/**
@@ -40,11 +40,11 @@ public class ParticleChildController implements ParticleEventListener {
 	 * @param spawnOnDeath active when particle dies
 	 */
 	public ParticleChildController(ParticleSystem particleSystem, int delay, boolean spawnOnDeath) {
-		this.delay = delay;
-		this.spawnOnDeath = spawnOnDeath;
-		hasDelay = true;
-		copySystem = particleSystem;
-		particleSystems = new ArrayList<ParticleSystem>();
+		this.setDelay(delay);
+		this.setSpawnOnDeath(spawnOnDeath);
+		setHasDelay(true);
+		setCopySystem(particleSystem);
+		setParticleSystems(new ArrayList<ParticleSystem>());
 	}
 	
 	/**
@@ -52,44 +52,84 @@ public class ParticleChildController implements ParticleEventListener {
 	 * @param spawnOnDeath active when particle dies
 	 */
 	public ParticleChildController(ParticleSystem particleSystem, boolean spawnOnDeath) {
-		this.spawnOnDeath = spawnOnDeath;
-		hasDelay = false;
-		delay = 0;
-		copySystem = particleSystem;
-		particleSystems = new ArrayList<ParticleSystem>();
+		this.setSpawnOnDeath(spawnOnDeath);
+		setHasDelay(false);
+		setDelay(0);
+		setCopySystem(particleSystem);
+		setParticleSystems(new ArrayList<ParticleSystem>());
 	}
 	
 	@Override
 	public void onUpdateEvent() {
 		ArrayList<ParticleSystem> temp = new ArrayList<ParticleSystem>();
-		for(ParticleSystem particleSystem : particleSystems) {
+		for(ParticleSystem particleSystem : getParticleSystems()) {
 			particleSystem.run();
-			if (!particleSystem.spawn && !particleSystem.particles.hasActiveParticles())
+			if (!particleSystem.isSpawn() && !particleSystem.getParticles().hasActiveParticles())
 				temp.add(particleSystem);
 		}
-		particleSystems.removeAll(temp);
+		getParticleSystems().removeAll(temp);
 	}
 	
 	@Override
 	public void onParticleRunEvent(Particle particle) {
-		if (hasDelay && particle.frameCount == delay)
+		if (hasDelay() && particle.getFrameCount() == getDelay())
 			newChild(particle);
 	}
 	
 	@Override
 	public void onParticleDeathEvent(Particle particle) {
-		if (spawnOnDeath)
+		if (isSpawnOnDeath())
 			newChild(particle);
 	}
 	
 	@Override
 	public ParticleEventListener copy() {
-		return new ParticleChildController(copySystem.copy(), delay);
+		return new ParticleChildController(getCopySystem().copy(), getDelay());
 	}
 	
 	private void newChild(Particle p) {
-		ParticleSystem newSystem = copySystem.copy();
-		newSystem.emission.setPosition(p.position);
-		particleSystems.add(newSystem);
+		ParticleSystem newSystem = getCopySystem().copy();
+		newSystem.updateEmission(p);
+		getParticleSystems().add(newSystem);
+	}
+
+	public boolean hasDelay() {
+		return hasDelay;
+	}
+
+	public void setHasDelay(boolean hasDelay) {
+		this.hasDelay = hasDelay;
+	}
+
+	public boolean isSpawnOnDeath() {
+		return spawnOnDeath;
+	}
+
+	public void setSpawnOnDeath(boolean spawnOnDeath) {
+		this.spawnOnDeath = spawnOnDeath;
+	}
+
+	public int getDelay() {
+		return delay;
+	}
+
+	public void setDelay(int delay) {
+		this.delay = delay;
+	}
+
+	public ParticleSystem getCopySystem() {
+		return copySystem;
+	}
+
+	public void setCopySystem(ParticleSystem copySystem) {
+		this.copySystem = copySystem;
+	}
+
+	public ArrayList<ParticleSystem> getParticleSystems() {
+		return particleSystems;
+	}
+
+	public void setParticleSystems(ArrayList<ParticleSystem> particleSystems) {
+		this.particleSystems = particleSystems;
 	}
 }
