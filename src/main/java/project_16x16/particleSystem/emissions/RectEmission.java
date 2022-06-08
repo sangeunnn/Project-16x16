@@ -29,11 +29,6 @@ public class RectEmission extends ParticleEmission {
 		this.width = width;
 		this.height = height;
 	}
-
-	public void generateNew() {
-		float phi = (float) (2*Math.PI*Math.random());
-		newParameters(phi);
-	}
 	
 	@Override
 	public void newPosition() {
@@ -47,5 +42,10 @@ public class RectEmission extends ParticleEmission {
 	@Override
 	public ParticleEmission copy() {
 		return new  RectEmission(position, velocity, acceleration, width, height);
+	}
+
+	public float determinePhi() {
+		float phi = (float) (2*Math.PI*Math.random());
+		return phi;
 	}
 }

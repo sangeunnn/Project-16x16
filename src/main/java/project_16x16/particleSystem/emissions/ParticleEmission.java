@@ -30,7 +30,12 @@ public abstract class ParticleEmission {
 	
 	public abstract ParticleEmission copy();
 
-	public abstract void generateNew();
+	public abstract float determinePhi();
+	
+	public void generateNew() {
+		float phi = determinePhi();
+		newParameters(phi);
+	}
 	
 	public void newVelocity(float phi) {
 		newVelocity = new PVector();

@@ -37,7 +37,8 @@ public class DirectionalEmission extends ParticleEmission {
 		newAcceleration.x = (float) (acceleration*Math.cos(angle));
 		newAcceleration.y = (float) (acceleration*Math.sin(angle));
 	}
-	
+
+	@Override
 	public void generateNew() {
 		newPosition();
 		newVelocity();
@@ -57,5 +58,10 @@ public class DirectionalEmission extends ParticleEmission {
 	@Override
 	public ParticleEmission copy() {
 		return new  DirectionalEmission(position, velocity, acceleration, spread, angle);
+	}
+
+	@Override
+	public float determinePhi() {
+		return 0;
 	}
 }
