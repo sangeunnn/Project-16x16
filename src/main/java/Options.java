@@ -1,4 +1,4 @@
-package project_16x16;
+
 
 import java.awt.event.KeyEvent;
 import java.util.prefs.BackingStoreException;
@@ -17,8 +17,7 @@ public class Options {
 	 * Define the option as an enum, then create the variable.
 	 */
 	public static enum Option {
-		moveLeftKey, moveRightKey, jumpKey, dashKey, targetFPS, snapSize, debugMode, gainBGM, gainSFX, muteBGM, muteSFX,
-		testKey;
+		moveLeftKey, moveRightKey, jumpKey, dashKey, targetFPS, snapSize, debugMode, gainBGM, gainSFX, muteBGM, muteSFX , testKey;
 	}
 
 	public static int moveLeftKey = options.getInt(Option.moveLeftKey.toString(), KeyEvent.VK_A);
@@ -44,7 +43,7 @@ public class Options {
 	protected static final int cameraToPlayer = KeyEvent.VK_F;
 	protected static final int shake = KeyEvent.VK_G;
 	protected static final int notify = KeyEvent.VK_H;
-
+	
 	public static final int lifeCapInc = KeyEvent.VK_P;
 	public static final int lifeCapDec = KeyEvent.VK_O;
 	public static final int lifeDec = KeyEvent.VK_K;
