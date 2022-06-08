@@ -36,7 +36,6 @@ public class Enemy extends CollidableObject {
 
 	final PVector velocity = new PVector(0, 0);
 
-	private CollisionOccur collideoccur;
 
 	private static final int collisionRange = 145;
 
