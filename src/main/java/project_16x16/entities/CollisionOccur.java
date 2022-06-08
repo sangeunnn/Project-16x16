@@ -11,32 +11,50 @@ public class CollisionOccur {
         private int height;
         private CollidableObject collision;
 
-        CollisionOccur() {
+        public CollisionOccur() {
         }
 
         public void setPos(PVector pos_) {
                 pos = pos_;
         }
 
+        public PVector getPos() {
+                return pos;
+        }
+
         public void setVelocity(PVector velocity_) {
                 velocity = velocity_;
+        }
+
+        public PVector getVelocity() {
+                return velocity;
         }
 
         public void setWidth(int width_) {
                 width = width_;
         }
 
+        public int getWidth() {
+                return width;
+        }
+
         public void setHeight(int height_) {
                 height = height_;
+        }
+
+        public int getHeight() {
+                return height;
         }
 
         public void setCollidableObj(CollidableObject collidobj_) {
                 collision = collidobj_;
         }
 
+        public CollidableObject getCollidableObj() {
+                return collision;
+        }
+
         public boolean collides() {
-
-
                 return (pos.x + width / 2 > collision.pos.x - collision.width / 2
                                 && pos.x - width / 2 < collision.pos.x + collision.width / 2)
                                 && (pos.y + height / 2 > collision.pos.y - collision.height / 2
@@ -76,7 +94,6 @@ public class CollisionOccur {
                                                 && pos.y + velocity.y - height / 2 < collision.pos.y
                                                                 + collision.height / 2);
         }
-
 
         public boolean checkCollides(String input) {
                 switch (input) {

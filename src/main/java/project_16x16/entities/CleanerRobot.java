@@ -21,7 +21,7 @@ import project_16x16.projectiles.Swing;
 import project_16x16.scene.GameplayScene;
 
 public class CleanerRobot extends Enemy {
-	
+
 	/**
 	 * <h1>Enemy type</h1>
 	 * <p>
@@ -29,32 +29,31 @@ public class CleanerRobot extends Enemy {
 	 * to point B and vice-versa.
 	 * </p>
 	 */
-	
+
 	private PVector posA, posB;
 	private PVector target;
-	
+
 	public CleanerRobot(SideScroller a, GameplayScene g) {
 		super(a, g);
 	}
-	
+
 	public CleanerRobot(SideScroller a, GameplayScene g, PVector x1, PVector x2) {
 		this(a, g);
 		posA = x1;
 		posB = x2;
 		target = posA;
 	}
-	
+
 	public void update() {
 		super.update();
 		velocity.set(velocity.x, velocity.y + gravity);
-		if(getDistance(target, pos) < 10) {
-			if(target == posA) {
+		if (getDistance(target, pos) < 10) {
+			if (target == posA) {
 				target = posB;
-			}else {
+			} else {
 				target = posA;
 			}
-		}
-		else if(pos.x > target.x) {
+		} else if (pos.x > target.x) {
 			velocity.x = -speedWalk;
 			enemyState.facingDir = LEFT;
 		} else if (pos.x < target.x) {
@@ -63,8 +62,16 @@ public class CleanerRobot extends Enemy {
 		}
 
 	}
-	
-	private double getDistance(PVector A, PVector B) {
-		return Math.sqrt(Math.pow(A.x-B.x, 2) + Math.pow(A.y-B.y, 2));
+
+	public double getDistance(PVector A, PVector B) {
+		return Math.sqrt(Math.pow(A.x - B.x, 2) + Math.pow(A.y - B.y, 2));
+	}
+
+	public boolean notNull() {
+		if (target != null && posA != null && posB != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

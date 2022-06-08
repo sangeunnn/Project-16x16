@@ -27,7 +27,6 @@ public class AnimationComponent {
 	public boolean ended;
 
 	private final MultiValueMap sounds;
-	
 
 	public AnimationComponent() {
 		sounds = new MultiValueMap();
@@ -111,6 +110,10 @@ public class AnimationComponent {
 		return (int) (length - currentFrame);
 	}
 
+	public ArrayList<PImage> getFrames() {
+		return this.frames;
+	}
+
 	/**
 	 * Retrieves the current frame ID
 	 *
@@ -131,6 +134,10 @@ public class AnimationComponent {
 		}
 	}
 
+	public void setFrames(ArrayList<PImage> frames) {
+		this.frames = frames;
+	}
+
 	/**
 	 * Retrieves the length of the animation
 	 *
@@ -149,5 +156,9 @@ public class AnimationComponent {
 	 */
 	public void setSFX(SFX sound, int frameNumber) {
 		sounds.put(frameNumber, sound);
+	}
+
+	public SideScroller getApplete() {
+		return applet;
 	}
 }
