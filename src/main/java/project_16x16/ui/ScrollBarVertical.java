@@ -9,7 +9,7 @@ import project_16x16.Utility;
 /**
  * Horizontal ScrollBar
  */
-public class ScrollBarVertical extends PClass {
+public class ScrollBarVertical extends PClass implements ScrollBar {
 
 	public float barLocation = 0f; // between 0-1
 	

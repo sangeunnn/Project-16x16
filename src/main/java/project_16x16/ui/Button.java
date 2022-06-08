@@ -8,7 +8,7 @@ import project_16x16.scene.InitButtonStrategy;
 /**
  * The Press Class extends PClass A button for the player to click
  */
-public class Button extends PClass {
+public class Button extends PClass implements ButtonUi{
 
 	/**
 	 * SeonU

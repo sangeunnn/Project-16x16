@@ -9,7 +9,7 @@ import project_16x16.Utility;
  * The PInput Class extends PClass
  * An input field 
  */
-public class TextInputField extends PClass {
+public class TextInputField extends PClass implements Ui{
 	
 	protected int width;
 	protected int height;
